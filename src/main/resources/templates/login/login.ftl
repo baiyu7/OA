@@ -143,7 +143,7 @@
             </div>
             <div style="border: 1px solid transparent;">
                 <p style="margin-top: 550px;font-weight: 400;color: #757575;font-size: 22px;letter-spacing:1px ;">
-                    欢迎使用OA办公自动化系统</p>
+                    为企业提供办公协同、沟通协作等核心价值，提高管理和工作效率。</p>
             </div>
         </div>
 

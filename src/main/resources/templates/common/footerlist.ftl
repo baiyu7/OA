@@ -1,12 +1,6 @@
 <!-- <div class="container-fluid" style="padding: 0;">
 	<div class="row"> -->
-		<div class="col-md-12" id="ss"
-			style="background: white; padding: 15px; position: absolute; bottom: 0;height:50px;">
-			<strong> Copyright © 2017 <a href="http://www.zxyoo.cn">zxyoo</a>.
-			</strong> All rights reserved.
-			<div class="pull-right currt-time" style="display: inline-block;margin-right: 20px;">
-				2017年08月27日，星期日</div>
-		</div>
+
 	<!-- </div>
 </div> -->
 <script type="text/javascript">

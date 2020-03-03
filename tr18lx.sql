@@ -50,40 +50,7 @@ INSERT INTO `aoa_attachment_list` VALUES (13, '5.jpg', '/2017/09/罗密欧/eec31
 INSERT INTO `aoa_attachment_list` VALUES (44, '1.jpg', '/2017/09/罗密欧/aa5be2a8-5705-4199-b1ba-0df2424e3eb8.jpg', 'jpg', '191177', 'image/jpeg', 'note', '2017-09-23 15:30:09', '1');
 INSERT INTO `aoa_attachment_list` VALUES (46, '4.jpg', '/2017/09/罗密欧/f459a35a-439a-4d4d-a684-731d3bc48c88.jpg', 'jpg', '133831', 'image/jpeg', 'note', '2017-09-23 16:11:11', '1');
 INSERT INTO `aoa_attachment_list` VALUES (47, '1.jpg', '/2017/09/罗密欧/44bc1ad7-0e2e-4569-afc1-385783a955bf.jpg', 'jpg', '191177', 'image/jpeg', 'note', '2017-09-23 16:37:05', '1');
-INSERT INTO `aoa_attachment_list` VALUES (48, 'touxiang.jpg', '/2017/09/罗密欧/32bd13b9-40f6-4273-bb4a-96a064db8931.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-09-28 19:40:05', '1');
-INSERT INTO `aoa_attachment_list` VALUES (49, '30D06FF1176D3C568E37CBE221D2E542.png', '/2017/09/罗密欧/db7577dd-c8aa-4276-a0af-44a1a19866f8.png', 'png', '71260', 'image/png', 'mail', '2017-09-28 21:24:38', '1');
-INSERT INTO `aoa_attachment_list` VALUES (50, 'wenwu.gif', '/2017/09/罗密欧/ebbf1830-0808-4cd8-ac43-f40bef5eb514.gif', 'gif', '3532', 'image/gif', 'mail', '2017-09-28 21:27:45', '1');
-INSERT INTO `aoa_attachment_list` VALUES (51, 'wenwu.gif', '/2017/09/罗密欧/f86b2292-0ebe-4d34-bf44-ef042b9b7869.gif', 'gif', '3532', 'image/gif', 'mail', '2017-09-28 21:30:40', '1');
-INSERT INTO `aoa_attachment_list` VALUES (52, 'touxiang.jpg', '/2017/09/罗密欧/8235e27e-3ad3-4b86-bd6d-f26503d9f394.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-09-28 21:37:44', '1');
-INSERT INTO `aoa_attachment_list` VALUES (53, 'touxiang.jpg', '/2017/09/罗密欧/fc55113a-d2ed-4d7a-bed1-8659c9cb301e.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-09-28 21:46:48', '1');
-INSERT INTO `aoa_attachment_list` VALUES (54, 'touxiang.jpg', '/2017/09/罗密欧/e2bbea23-4b30-4407-b0c2-0fdced499a54.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-09-28 21:53:24', '1');
-INSERT INTO `aoa_attachment_list` VALUES (55, 'touxiang.jpg', '/2017/09/罗密欧/3e3f94aa-b956-460f-811a-91af4438f9f3.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-09-28 22:00:37', '1');
-INSERT INTO `aoa_attachment_list` VALUES (56, 'touxiang.jpg', '/2017/09/罗密欧/0c75fe6e-0e3b-4e3e-b1c2-50de92f09664.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-09-28 22:03:46', '1');
-INSERT INTO `aoa_attachment_list` VALUES (57, 'touxiang.jpg', '/2017/09/罗密欧/9ef69729-1a49-4d3c-9ed1-75a601d0ae20.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-09-28 22:20:12', '1');
-INSERT INTO `aoa_attachment_list` VALUES (58, '截图.png', '/2017/09/罗密欧/61c319da-b1ea-4d83-815c-5abb824e977c.png', 'png', '195652', 'image/png', 'mail', '2017-09-29 22:09:51', '1');
-INSERT INTO `aoa_attachment_list` VALUES (59, 'touxiang.jpg', '/2017/10/朱丽叶/e59201dd-65ef-4f0f-801d-999d31be6d75.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-10-01 12:46:44', '2');
-INSERT INTO `aoa_attachment_list` VALUES (60, 'touxiang.jpg', '/2017/10/罗密欧/e54faef8-b6aa-4451-8fef-a7c14aea2b86.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-10-01 19:39:14', '1');
-INSERT INTO `aoa_attachment_list` VALUES (61, '30D06FF1176D3C568E37CBE221D2E542.png', '/2017/10/罗密欧/7ab2398a-0295-4e53-8037-10e10b5519fb.png', 'png', '71260', 'image/png', 'mail', '2017-10-02 14:49:56', '1');
-INSERT INTO `aoa_attachment_list` VALUES (62, 'touxiang.jpg', '/2017/10/罗密欧/e2036a84-4bf0-4637-bf0f-18888745986d.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-10-06 11:02:49', '1');
-INSERT INTO `aoa_attachment_list` VALUES (64, '4.jpg', '/2017/10/罗密欧/280308d8-2aca-40af-8868-b138aee8d71d.jpg', 'jpg', '133831', 'image/jpeg', 'note', '2017-10-07 16:03:03', '1');
-INSERT INTO `aoa_attachment_list` VALUES (65, '1.jpg', '/2017/10/罗密欧/eabc7cbe-5406-491a-a7f5-52214af201cc.jpg', 'jpg', '191177', 'image/jpeg', 'note', '2017-10-07 16:03:58', '1');
-INSERT INTO `aoa_attachment_list` VALUES (66, 'touxiang.jpg', '/2017/10/光宇/ea6c9723-9a0f-46e0-adbc-1cf41b44a805.jpg', 'jpg', '12124', 'image/jpeg', 'aoa_bursement', '2017-10-12 23:25:57', '18');
-INSERT INTO `aoa_attachment_list` VALUES (67, 'touxiang.jpg', '/2017/10/伊丽莎白/b11342e1-bcf1-4196-b6a3-b900a5ce1c7a.jpg', 'jpg', '12124', 'image/jpeg', 'aoa_bursement', '2017-10-14 21:22:35', '3');
-INSERT INTO `aoa_attachment_list` VALUES (68, 'touxiang.jpg', '/2017/10/光宇/d2377f04-95b7-49a3-95d1-e7ea7d51b204.jpg', 'jpg', '12124', 'image/jpeg', 'aoa_bursement', '2017-10-15 19:17:46', '18');
-INSERT INTO `aoa_attachment_list` VALUES (69, 'touxiang.jpg', '/2017/10/光宇/ab5ebe75-a3ca-482f-96ea-ab353b3521fd.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-10-16 17:17:51', '18');
-INSERT INTO `aoa_attachment_list` VALUES (70, 'touxiang.jpg', '/2017/10/罗密欧/3190c54b-ccdd-435c-8796-59f3d714b605.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-10-16 17:42:16', '1');
-INSERT INTO `aoa_attachment_list` VALUES (71, '3.jpg', '/2017/10/罗密欧/49cca32e-a317-4cb3-b804-7a7ffe6b70ea.jpg', 'jpg', '231999', 'image/jpeg', 'note', '2017-10-18 16:13:02', '1');
-INSERT INTO `aoa_attachment_list` VALUES (72, 'touxiang.jpg', '/2017/10/罗密欧/9bb7b8a0-cdc2-4e6a-bbf9-76741ec6d9f8.jpg', 'jpg', '12124', 'image/jpeg', 'mail', '2017-10-18 17:45:16', '1');
-INSERT INTO `aoa_attachment_list` VALUES (73, 'timg.jpeg', '/2017/10/soli/f8055ab3-eb20-47bd-b015-b5b602ddb905.jpeg', 'jpeg', '696381', 'image/jpeg', 'note', '2017-10-19 23:37:37', '5');
-INSERT INTO `aoa_attachment_list` VALUES (74, '2.jpg', '/2017/10/小李父斯基/294ccc18-1710-4fbf-8fff-4d547102d9d4.jpg', 'jpg', '302654', 'image/jpeg', 'note', '2017-10-20 10:35:00', '4');
-INSERT INTO `aoa_attachment_list` VALUES (75, '3.jpg', '/2017/10/小李父斯基/7d7ffa12-5120-4c2d-85f0-71f3e61cde78.jpg', 'jpg', '231999', 'image/jpeg', 'note', '2017-10-20 10:36:07', '4');
-INSERT INTO `aoa_attachment_list` VALUES (76, '5.jpg', '/2017/10/甄姬/9fbe4e2b-21be-40a4-bc95-0e10fdbc6183.jpg', 'jpg', '175797', 'image/jpeg', 'note', '2017-10-20 10:40:03', '7');
-INSERT INTO `aoa_attachment_list` VALUES (77, '3.jpg', '/2017/10/罗密欧/1b01a1e2-17bf-4e96-98e5-dc8f30526c1c.jpg', 'jpg', '231999', 'image/jpeg', 'note', '2017-10-22 09:21:27', '1');
-INSERT INTO `aoa_attachment_list` VALUES (78, '4.jpg', '/2017/10/罗密欧/96d0f196-b218-4e26-88e5-5ec1116271a1.jpg', 'jpg', '133831', 'image/jpeg', 'note', '2017-10-22 09:13:12', '1');
-INSERT INTO `aoa_attachment_list` VALUES (79, '4.jpg', '/2017/10/罗密欧/3ac1f528-dac7-4635-8911-2d39e3ac6b03.jpg', 'jpg', '133831', 'image/jpeg', 'note', '2017-10-22 09:26:33', '1');
-INSERT INTO `aoa_attachment_list` VALUES (80, '2.jpg', '/2017/10/罗密欧/5026b08c-354d-427d-8fb2-37c0f7b70199.jpg', 'jpg', '302654', 'image/jpeg', 'note', '2017-10-22 09:33:49', '1');
-INSERT INTO `aoa_attachment_list` VALUES (81, '1.jpg', '/2017/10/罗密欧/000d6a4f-1a29-44fc-8daf-fe4208eebc54.jpg', 'jpg', '191177', 'image/jpeg', 'note', '2017-10-22 10:00:19', '1');
-INSERT INTO `aoa_attachment_list` VALUES (82, '1.jpg', '/2017/10/罗密欧/976c2665-b059-4303-8e59-1ebc1a495ea5.jpg', 'jpg', '191177', 'image/jpeg', 'note', '2017-10-22 11:28:16', '1');
+
 COMMIT;
 
 -- ----------------------------

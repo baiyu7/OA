@@ -169,7 +169,7 @@
 							 var starttime =dateformat(new Date(item.startTime));
 							 var endtime = dateformat(new Date(item.endTime));
 							 if(item.statusId=='27'){
-								 color="#00c0ef";
+								 color="#d3a4ff";
 							 }
 							 if(item.statusId=='28'){
 								 color="#f0ad4e";

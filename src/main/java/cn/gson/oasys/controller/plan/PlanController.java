@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import cn.gson.oasys.model.entity.role.Role;
+import cn.gson.oasys.model.entity.user.Dept;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +89,7 @@ public class PlanController {
 
 	// 计划管理
 	@RequestMapping(value="planview", method = RequestMethod.GET)
-	public String test(Model model, HttpSession session, 
+	public String test(Model model, HttpSession session,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "baseKey", required = false) String baseKey,
 			@RequestParam(value = "type", required = false) String type,
@@ -99,7 +101,7 @@ public class PlanController {
 		return "plan/planview";
 	}
 
-	
+
 
 	@RequestMapping(value="planviewtable", method = RequestMethod.GET)
 	public String testdd(Model model, HttpSession session,
@@ -116,7 +118,7 @@ public class PlanController {
 
 	// 计划报表
 	@RequestMapping("myplan")
-	public String test2(HttpServletRequest request, Model model, HttpSession session, 
+	public String test2(HttpServletRequest request, Model model, HttpSession session,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "baseKey", required = false) String baseKey) {
 		plantablepaging(request, model, session, page, baseKey);
@@ -125,7 +127,7 @@ public class PlanController {
 
 	// 真正的报表
 	@RequestMapping("realplantable")
-	public String test23(HttpServletRequest request, Model model, HttpSession session, 
+	public String test23(HttpServletRequest request, Model model, HttpSession session,
 			@RequestParam(value="pid",required=false) String pid,
 			@RequestParam(value="comment",required=false) String comment,
 			@RequestParam(value = "page", defaultValue = "0") int page,
@@ -142,7 +144,7 @@ public class PlanController {
 		return "plan/realplantable";
 	}
 
-	
+
 
 	// 我的编辑
 	@RequestMapping("planedit")
@@ -259,7 +261,7 @@ public class PlanController {
 		model.addAttribute("page", page2);
 		model.addAttribute("url", "planviewtable");
 	}
-	
+
 	//计划报表
 	private void plantablepaging(HttpServletRequest request, Model model, HttpSession session, int page,
 			String baseKey) {
@@ -298,13 +300,21 @@ public class PlanController {
 		}
 		pList = (List<Plan>) planDao.findAll();
 		Long userid=Long.valueOf(session.getAttribute("userId")+"");
+
+
+
+
 		Page<User> uListpage =userService.findmyemployuser(page, baseKey, userid);
+
+
+
+
 		for (Plan plan : pList) {
 			number.add(plan.getUser().getUserId());
 		}
 		System.out.println(number);
 		// 找到相对应的计划记录
-		for (Long num : number) { 
+		for (Long num : number) {
 			plan2 = planDao.findlatest(start, end, num, typeid);
 			if (plan2 != null)
 				plans.add(plan2);
@@ -326,12 +336,12 @@ public class PlanController {
 			System.out.println("map"+uMap);
 		}
         System.out.println(uListpage.getContent());
-    	
+
         //记住开始时间和结束时间以及选择
         model.addAttribute("starttime",starttime);
         model.addAttribute("endtime", endtime);
     	model.addAttribute("choose", choose1);
-        
+
 		model.addAttribute("uMap", uMap);
 		model.addAttribute("type", type);
 		model.addAttribute("status", status);
@@ -341,5 +351,5 @@ public class PlanController {
 		model.addAttribute("page", uListpage);
 		model.addAttribute("url", "realplantable");
 	}
-	
+
 }

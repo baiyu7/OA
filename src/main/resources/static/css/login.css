@@ -6,6 +6,7 @@
 font-family: 'Lato', sans-serif;
 }
 
+
 .cotn_principal {
   position: absolute;
   width: 100%;
@@ -24,16 +25,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfd8dc', end
   position: relative;
   float: left;
    width: 100%;
-      
+
 }
 
 .cont_login {
   position: relative;
   width: 402px;
-  
+
 }
 
-.cont_back_info {  
+.cont_back_info {
 position: relative;
   float: left;
   width: 640px;
@@ -61,7 +62,7 @@ transition: all 0.5s;
 
 .cont_forms_active_login {
 box-shadow: 1px 10px 30px -10px rgba(0,0,0,0.5);
-  height: 420px;  
+  height: 420px;
 top:20px;
 left: 0px;
   -webkit-transition: all 0.5s;
@@ -74,7 +75,7 @@ transition: all 0.5s;
 
 .cont_forms_active_sign_up {
 box-shadow: 1px 10px 30px -10px rgba(0,0,0,0.5);
-  height: 430px;  
+  height: 430px;
 top:20px;
 left:320px;
 -webkit-transition: all 0.5s;
@@ -121,7 +122,7 @@ animation-direction: alternate;
 }
 
 .cont_forms_active_login > .cont_img_back_ {
-top:0px;  
+top:0px;
   -webkit-transition: all 0.5s;
 -moz-transition: all 0.5s;
 -ms-transition: all 0.5s;
@@ -130,7 +131,7 @@ transition: all 0.5s;
 }
 
 .cont_forms_active_sign_up > .cont_img_back_ {
-top:0px;  
+top:0px;
 left: -435px;
   -webkit-transition: all 0.5s;
 -moz-transition: all 0.5s;
@@ -138,7 +139,7 @@ left: -435px;
 -o-transition: all 0.5s;
 transition: all 0.5s;
 }
- 
+
 
 .cont_info_log_sign_up {
 position: absolute;
@@ -146,7 +147,7 @@ position: absolute;
   height: 280px;
   top: 100px;
 z-index: 1;
-} 
+}
 
 .col_md_login {
   position: relative;
@@ -167,8 +168,8 @@ width: 80%;
     color: #37474F;
 }
 
-.btn_login { 
-background-color: #82b2c9;
+.btn_login {
+background-color: #e53935;
   border: none;
   padding: 10px;
 width: 200px;
@@ -182,7 +183,7 @@ cursor: pointer;
 .col_md_sign_up {
   position: relative;
   float: left;
-  width: 50%;  
+  width: 50%;
 }
 
 .cont_ba_opcitiy > h2 {
@@ -208,7 +209,7 @@ margin-top: 60px;
 padding: 15px 0px;
 }
 
-.btn_sign_up { 
+.btn_sign_up {
 background-color: #f44336;
   border: none;
   padding: 10px;
@@ -220,7 +221,7 @@ margin-top: 10px;
 cursor: pointer;
 }
 .cont_forms_active_sign_up {
-z-index: 2;  
+z-index: 2;
 }
 
 
@@ -287,7 +288,7 @@ transition: all 0.5s;
 }
 
 .cont_forms_active_login {
-z-index: 2;  
+z-index: 2;
 }
 .cont_forms_active_login  >.cont_form_login {
 }
@@ -305,7 +306,7 @@ display: none;
 transition: all 0.5s;
 }
 
-  
+
 .cont_form_sign_up > input {
 text-align: left;
   padding: 15px 5px;
@@ -317,7 +318,7 @@ border: none;
 }
 
 .cont_form_sign_up > h2 {
-margin-top: 50px; 
+margin-top: 50px;
 font-weight: 400;
   color: #757575;
 }
@@ -333,14 +334,14 @@ text-align: left;
   color: #318cb9;
   font-size: 14px;
       border-radius: 3px;
-outline: none;     
+outline: none;
 }
 input:focus{
 	border: 1px solid #4bbff9;
 }
 
 .cont_form_login > h2 {
-margin-top: 110px; 
+margin-top: 110px;
 font-weight: 400;
   color: #757575;
 }
