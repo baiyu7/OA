@@ -35,11 +35,24 @@ public class Dept {
 	private String deptFax;		//部门传真
 	
 	private String email;		//部门email
-	
+
+	public String getMaxId() {
+		return maxId;
+	}
+
+	public void setMaxId(String maxId) {
+		this.maxId = maxId;
+	}
+
 	@Column(name = "dept_addr")
 	private String deptAddr;	//部门地址
-	
+
+	@Column(name = "deptmanager")
 	private Long deptmanager;
+
+	@Column(name = "max_id")
+	private String maxId;	//总裁id
+
 	
 //	@Column(name = "start_time")
 //	private Date startTime;		//部门上班时间

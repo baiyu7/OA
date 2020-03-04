@@ -55,7 +55,7 @@ a:hover {
 										<input type="hidden" class="usernameonliyvalue" value=""/>
 								</div>
 							</#if>
-							
+
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span>电话</span></label> <input
 									name="userTel" class="form-control" value="${(user.userTel)!''}"/>
@@ -90,52 +90,140 @@ a:hover {
 								<label class="control-label"><span>银行账号</span></label> <input
 									name="bank" class="form-control" value="${(user.bank)!''}"/>
 							</div>
-							<div class="col-md-6 form-group">
-								<label class="control-label"> <span>部门</span></label> 
-								<select class="deptselect form-control" name="deptid">
-									<#if user??>
+
+
+
+
+
+
+
+
+
+<#--							<div class="col-md-6 form-group">-->
+<#--								<label class="control-label"> <span>性别</span>-->
+<#--								</label> -->
+<#--									<select class="form-control" name="sex" value="${(user.sex)!''}">-->
+<#--										<option value="男">男</option>-->
+<#--										<option value="女">女</option>-->
+<#--									</select>`-->
+<#--							</div>-->
+
+
+
+
+
+
+
+							<#if where??>
+								<div class="col-md-6 form-group">
+									<label class="control-label"> <span>性别</span>
+									</label>
+									<select class="form-control" name="sex" value="${(user.sex)!''}">
+										<option value="${(user.sex)!''}">${(user.sex)!''}</option>
+									</select>
+								</div>
+							<#else>
+								<div class="col-md-6 form-group">
+									<label class="control-label"> <span>性别</span>
+									</label>
+									<select class="form-control" name="sex" value="${(user.sex)!''}">
+										<option value="男">男</option>
+										<option value="女">女</option>
+									</select>
+								</div>
+							</#if>
+
+
+
+
+
+
+							<#if where??>
+								<div class="col-md-6 form-group">
+									<label class="control-label"> <span>角色</span>
+									</label> <select class="form-control" name="roleid">
+											<option value="${(user.role.roleId)!''}">${user.role.roleName}</option>
+									</select>
+								</div>
+							<#else>
+								<div class="col-md-6 form-group">
+									<label class="control-label"> <span>角色</span>
+									</label> <select class="form-control" name="roleid">
+										<#if user??>
+											<option value="${(user.role.roleId)!''}">${user.role.roleName}</option>
+										</#if>
+										<#list roles as role>
+											<option value="${role.roleId}">${role.roleName}</option>
+										</#list>
+									</select>
+								</div>
+							</#if>
+
+
+							<#if where??>
+								<div class="col-md-6 form-group">
+									<label class="control-label"> <span>部门</span></label>
+									<select class="deptselect form-control" name="deptid">
 										<option value="${(user.dept.deptId)!''}">${user.dept.deptName}</option>
-									</#if>
-									<#list depts as dept>
-										<option value="${dept.deptId}">${dept.deptName}</option>
-									</#list>
-								</select>
-							</div>
-							<div class="col-md-6 form-group">
-								<label class="control-label"> <span>性别</span>
-								</label> <select class="form-control" name="sex" value="${(user.sex)!''}">
-									<option value="男">男</option>
-									<option value="女">女</option>
-								</select>
-							</div>
-							<div class="col-md-6 form-group">
-								<label class="control-label"> <span>职位</span></label> 
-								<select class="positionselect form-control" name="positionid">
-									<#if user??>
-										<option value="${(user.position.id)!''}">${user.position.name}</option>
-									</#if>
-									<#list positions as position>
-										<option value="${position.id}">${position.name}</option>
-									</#list>
-								</select>
-							</div>
-							<div class="col-md-6 form-group">
-								<label class="control-label"> <span>角色</span>
-								</label> <select class="form-control" name="roleid">
-									<#if user??>
-										<option value="${(user.role.roleId)!''}">${user.role.roleName}</option>
-									</#if>
-									<#list roles as role>
-										<option value="${role.roleId}">${role.roleName}</option>
-									</#list>
-								</select>
-							</div>
+									</select>
+
+								</div>
+							<#else>
+								<div class="col-md-6 form-group">
+									<label class="control-label"> <span>部门</span></label>
+									<select class="deptselect form-control" name="deptid">
+										<#if user??>
+											<option value="${(user.dept.deptId)!''}">${user.dept.deptName}</option>
+										</#if>
+										<#list depts as dept>
+											<option value="${dept.deptId}">${dept.deptName}</option>
+										</#list>
+									</select>
+								</div>
+							</#if>
+
+							<#if where??>
+								<div class="col-md-6 form-group">
+									<label class="control-label"> <span>职位</span></label>
+									<select class="positionselect form-control" name="positionid">
+											<option value="${(user.position.id)!''}">${user.position.name}</option>
+
+									</select>
+								</div>
+							<#else>
+								<div class="col-md-6 form-group">
+									<label class="control-label"> <span>职位</span></label>
+									<select class="positionselect form-control" name="positionid">
+										<#if user??>
+											<option value="${(user.position.id)!''}">${user.position.name}</option>
+										</#if>
+										<#list positions as position>
+											<option value="${position.id}">${position.name}</option>
+										</#list>
+									</select>
+								</div>
+							</#if>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 							<div class="col-md-6 form-group">
 								<label class="control-label"><span>工资</span></label> <input
 									name="salary" class="form-control" value="${(user.salary)!''}"/>
 							</div>
-							
-							
+
+
 							<#if where??>
 							<#else>
 								<div class="col-md-6 form-group">
@@ -144,6 +232,7 @@ a:hover {
 										value="${(user.hireTime)!''}"/>
 								</div>
 							</#if>
+
 							<!-- <div class="col-md-6 form-group">
 								<label class="control-label">生日</label> <input
 									name="birth" class="form-control" id="start" onclick="WdatePicker()" value="${(user.birth)!''}"/>
@@ -159,7 +248,7 @@ a:hover {
 							</div>
 							<input type="hidden" name="userId" value="${(user.userId)!''}"/>
 						</div>
-	
+
 						<!--判断一下 请求参数的值  进行显示-->
 						<#if where??>
 							<div class="row">
@@ -196,7 +285,7 @@ a:hover {
 	</div>
 </div>
 <script type="text/javascript" src="plugins/My97DatePicker/WdatePicker.js"></script>
-<#include "/common/modalTip.ftl"/> 
+<#include "/common/modalTip.ftl"/>
 <script type="text/javascript">
 $(".usernameonliy").on("blur",function(){
 	console.log("改变了！！~~");
@@ -204,7 +293,7 @@ $(".usernameonliy").on("blur",function(){
 		console.log(data);
 		$(".usernameonliyvalue").val(data);
 	});
-}); 
+});
 $(".usernameonliy").focus(function(){
 	$(this).parent().removeClass("has-error has-feedback");
 	$('.alert-danger').css('display', 'none');
@@ -213,7 +302,7 @@ $(".usernameonliy").focus(function(){
 
 /* if(index == 0){
 	var $username = $(this).val();
-	
+
 	$.ajax(url:"useronlyname",{"username",$username},success:function(data){
 		console.log(data)
 		if(!data){
@@ -223,23 +312,23 @@ $(".usernameonliy").focus(function(){
 	 			return false;
 		}
 	});
-	
+
 } */
 
 $(".deptselect").on("change",function(){
 	//alert("部门选择变化");
 	var selectdeptid = $(this).val();
-	
+
 	$.post("selectdept",{selectdeptid:selectdeptid},function(data){
 		$(".positionselect").empty();
-		
+
 		//console.log(data);
 		$.each(data,function(i,item){
 			var potion = $("<option value="+item.id+">"+item.name+"</option>");
 			$(".positionselect").append(potion);
 		});
 	});
-	
+
 });
 
 
@@ -248,11 +337,11 @@ $(".deptselect").on("change",function(){
 });
  */
 function alertCheck(errorMess){
-	
+
 	$('.alert-danger').css('display', 'block');
 	// 提示框的错误信息显示
 	$('.error-mess').text(errorMess);
-	
+
 }
 //表单提交前执行的onsubmit()方法；返回false时，执行相应的提示信息；返回true就提交表单到后台校验与执行
 function check() {
@@ -281,7 +370,7 @@ function check() {
 			return false;
 		} else {
 			if(index == 0){
-				
+
 				var aaa= $(".usernameonliyvalue").val();
 				console.log("aaaa");
 				console.log(aaa);
@@ -293,13 +382,13 @@ function check() {
  					isRight = 0;
  		 			return false;
 				}
-				
+
 			}
-			
-			
+
+
 			if(index == 1){
 				var $tel = $(this).val();
-				
+
 				if(isPhoneNo($tel) == false){
 					$(this).parent().addClass("has-error has-feedback");
  					alertCheck("手机格式错误");
@@ -309,7 +398,7 @@ function check() {
 			}
 			if(index == 3){
 				var $email = $(this).val();
-				
+
 				if(isMailNo($email) == false){
 					$(this).parent().addClass("has-error has-feedback");
  					alertCheck("邮箱格式错误");
@@ -319,7 +408,7 @@ function check() {
 			}
 			if(index == 7){
 				var $idcard = $(this).val();
-				
+
 				if(isCardNo($idcard) == false){
 					$(this).parent().addClass("has-error has-feedback");
  					alertCheck("错误身份证");
@@ -329,7 +418,7 @@ function check() {
 			}
 			if(index == 8){
 				var $bank = $(this).val();
-				
+
  				if(CheckBankNo($bank) == false){
  					$(this).parent().addClass("has-error has-feedback");
  					isRight = 0;
@@ -351,19 +440,19 @@ function check() {
 }
 
 // 验证手机号
-function isPhoneNo(phone) { 
- var pattern = /^1[34578]\d{9}$/; 
- return pattern.test(phone); 
+function isPhoneNo(phone) {
+ var pattern = /^1[34578]\d{9}$/;
+ return pattern.test(phone);
 }
- 
-// 验证身份证 
-function isCardNo(card) { 
- var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
- return pattern.test(card); 
-} 
+
+// 验证身份证
+function isCardNo(card) {
+ var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+ return pattern.test(card);
+}
 //验证邮箱
 function isMailNo(mail){
-	var pattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/; 
+	var pattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
 	return pattern.test(mail);
 }
 //验证卡号
@@ -373,20 +462,20 @@ function CheckBankNo(bankn) {
 		 alertCheck("银行卡号必须全为数字!");
 	     flag=false;
 	   }
-	
+
 	var bankno = $.trim(bankn);
   　　if(bankno.length < 16 || bankno.length > 19) {
 	 alertCheck("银行卡号长度必须在16到19之间!");
      flag=false;
    }
-  
+
    //开头6位
    var strBin = "10,18,30,35,37,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,58,60,62,65,68,69,84,87,88,94,95,98,99";
    if(strBin.indexOf(bankno.substring(0, 2)) == -1) {
 	 alertCheck("银行卡号开头6位不符合规范!");
 	 flag=false;
    }
-   
+
    return flag;
 }
 </script>

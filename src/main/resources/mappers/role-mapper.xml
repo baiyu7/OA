@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gson.oasys.mappers.RoleMapper">
+    <!-- 判断三个条件
+        1、外部分类是否为空
+        2、字母值是否为空
+        3、关键字是否为空
+     -->
+
+    <delete id="deleteRole" parameterType="cn.gson.oasys.model.entity.role.Role">
+        delete from aoa_role_ where role_id = #{role.roleId}
+    </delete>
+
+
+</mapper>

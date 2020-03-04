@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gson.oasys.mappers.UserMapper">
+    <!-- 判断三个条件
+        1、外部分类是否为空
+        2、字母值是否为空
+        3、关键字是否为空
+     -->
+
+    <update id="updateFatherId" parameterType="cn.gson.oasys.model.entity.user.User">
+        update aoa_user
+        set
+        father_id = #{fatherId}
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateIsLock" parameterType="cn.gson.oasys.model.entity.user.User">
+        update aoa_user
+        set
+        is_lock = #{isLock}
+        where user_id = #{userId}
+    </update>
+</mapper>
