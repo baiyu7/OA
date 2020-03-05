@@ -54,28 +54,15 @@
         <div class="modal-content">
             <div class="modal-body modal-error">
 
-                <#--                <div class="modal-p">-->
-                <#--                    <h2 style="text-align: center;">操作错误</h2>-->
-                <#--                    <#if error??>-->
-                <#--                        <p class="modal-error-mess">${error}不要乱搞</p>-->
-                <#--                    <#else>-->
-                <#--                        <p class="modal-error-mess">操作成功！</p>-->
-                <#--                    </#if>-->
-                <#--                    <div class="modal-p">-->
-                <#--                        <button type="button" class="btn btn-primary" onclick="javascript:history.back();">返回</button>-->
-                <#--                    </div>-->
-                <#--                </div>-->
-
-
                 <#if error??>
                     <div class="icon">
                         <span class="glyphicon glyphicon-remove"></span>
                     </div>
                     <div class="modal-p">
                         <h2 style="text-align: center;">操作错误</h2>
-                        <p class="modal-error-mess">${error}不要乱搞</p>
+                        <p class="modal-error-mess">${error}</p>
                         <div class="modal-p">
-                            <button type="button" class="btn btn-primary" onclick="javascript:history.back();">返回
+                            <button type="button" class="btn btn-primary"  onclick="window.location='/deptmanage'">返回
                             </button>
                         </div>
                     </div>
@@ -87,7 +74,7 @@
                     <div class="modal-p">
                         <h2 style="text-align: center;">操作成功</h2>
                         <div class="modal-p">
-                            <button type="button" class="btn btn-primary" onclick="window.location='/rolemanage'">返回
+                            <button type="button" class="btn btn-primary" onclick="window.location='/deptmanage'">返回
                             </button>
                         </div>
                     </div>

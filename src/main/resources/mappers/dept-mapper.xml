@@ -15,5 +15,11 @@
         where dept_id = #{dept.deptId}
     </update>
 
+    <update id="updateMaxId" parameterType="cn.gson.oasys.model.entity.user.Dept">
+        update aoa_dept
+        set
+        max_id = #{dept.maxId}
+        where dept_id = #{dept.deptId}
+    </update>
 
 </mapper>

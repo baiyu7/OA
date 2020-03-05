@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import cn.gson.oasys.mappers.DeptMapper;
+import cn.gson.oasys.mappers.UserMapper;
+import cn.gson.oasys.model.entity.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +35,10 @@ public class DeptController {
     UserDao udao;
     @Autowired
     PositionDao pdao;
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    DeptMapper deptMapper;
 
     /**
      * 第一次进入部门管理页面
@@ -57,10 +64,10 @@ public class DeptController {
                 System.out.println("新增拉");
                 Position jinli = new Position();
                 jinli.setDeptid(adddept.getDeptId());
-                jinli.setName("经理");
+                jinli.setName("初级人员");
                 Position wenyuan = new Position();
                 wenyuan.setDeptid(adddept.getDeptId());
-                wenyuan.setName("文员");
+                wenyuan.setName("职员");
                 pdao.save(jinli);
                 pdao.save(wenyuan);
             }
@@ -121,24 +128,43 @@ public class DeptController {
     @RequestMapping("deptandpositionchange")
     public String deptandpositionchange(@RequestParam("positionid") Long positionid,
                                         @RequestParam("changedeptid") Long changedeptid,
-                                        @RequestParam("userid") Long userid,
-                                        @RequestParam("deptid") Long deptid,
+                                        @RequestParam("userid") Long userid,//用户id
+                                        @RequestParam("deptid") Long deptid,//老部门id
                                         Model model) {
+        //将该人的fathorID设置为部门的id。
+
+        //要根据部门获取部门经理的id；设置父级id；如过没有部门经理，提示   更改一下部门和职位
+
+        Dept dept = deptdao.findOne(changedeptid);//要新转的新部门
+
+        Dept deptOld = deptdao.findOne(deptid);//老的部门
+        if (dept.getDeptmanager() == null || dept.getDeptmanager() == 0) {//代表没有领导
+            model.addAttribute("error", "该部门没有经理");
+            return "user/deptprocess";
+        } else {
+            User u = udao.findOne(userid);
+            u.setFatherId(dept.getDeptmanager());
+            u.setDept(dept);
+            Position position = pdao.findOne(positionid);
+            u.setPosition(position);
+            udao.save(u);
+
+            model.addAttribute("deptid", deptid);
+            return "/readdept";
+        }
 
 
-        //要根据部门获取部门经理的id；设置父级id；
-        Dept dept = deptdao.findOne(changedeptid);
-        List<User> Puser = udao.findByDept(dept);
+//        Dept dept = deptdao.findOne(changedeptid);
+//        List<User> Puser = udao.findByDept(dept);
 
-
-
+/*
         Iterator<User> iterator = Puser.iterator();
         while (iterator.hasNext()) {
             User puser = iterator.next();
-            if (puser.getRole().getRoleId() != 4){
+            if (puser.getRole().getRoleId() != 4) {
                 iterator.remove();
             }
-               //这里要使用Iterator的remove方法移除当前对象，如果使用List的remove方法，则同样会出现ConcurrentModificationException
+            //这里要使用Iterator的remove方法移除当前对象，如果使用List的remove方法，则同样会出现ConcurrentModificationException
         }
 
         if (Puser == null) {
@@ -157,33 +183,96 @@ public class DeptController {
         System.out.println(deptid);
 
         model.addAttribute("deptid", deptid);
-        return "/readdept";
+        return "/readdept";*/
     }
 
-    @RequestMapping("deletdept")
-    public String deletdept(@RequestParam("deletedeptid") Long deletedeptid) {
+    @RequestMapping("deletdept") //部门下面有人删除应该给予提示呀
+    public String deletdept(@RequestParam("deletedeptid") Long deletedeptid, Model model) {
         Dept dept = deptdao.findOne(deletedeptid);
-        List<Position> ps = pdao.findByDeptid(deletedeptid);
-        for (Position position : ps) {
-            System.out.println(position);
-            pdao.delete(position);
+        //看部门下面是否有人啊
+        List<User> userList = udao.findByDept(dept);
+        if (userList.size() != 0) {
+            model.addAttribute("error", "该部门下还有员工");
+            return "user/process";
+        } else {
+            List<Position> ps = pdao.findByDeptid(deletedeptid);//将下面的职位也都删除了
+            for (Position position : ps) {
+                System.out.println(position);
+                pdao.delete(position);
+            }
+            deptdao.delete(dept);
+            model.addAttribute("success", "");
+            return "user/process";
         }
-        deptdao.delete(dept);
-        return "/deptmanage";
+
 
     }
 
     @RequestMapping("deptmanagerchange")
     public String deptmanagerchange(@RequestParam(value = "positionid", required = false) Long positionid,
-                                    @RequestParam(value = "changedeptid", required = false) Long changedeptid,
-                                    @RequestParam(value = "oldmanageid", required = false) Long oldmanageid,
-                                    @RequestParam(value = "newmanageid", required = false) Long newmanageid,
+                                    @RequestParam(value = "changedeptid", required = false) Long changedeptid,//新部门id 测试部
+                                    @RequestParam(value = "oldmanageid", required = false) Long oldmanageid,//赵天麒
+                                    @RequestParam(value = "newmanageid", required = false) Long newmanageid,//新领导的userid
                                     @RequestParam("deptid") Long deptid,
                                     Model model) {
-        System.out.println("oldmanageid:" + oldmanageid);
-        System.out.println("newmanageid:" + newmanageid);
-        Dept deptnow = deptdao.findOne(deptid);
-        if (oldmanageid != null) {
+
+        //首先更换部门表的managerId
+        //在将该部门人员的fathorid都换了
+        System.out.println("oldmanageid:" + oldmanageid);//赵天麒id
+        System.out.println("newmanageid:" + newmanageid);//高圆圆id
+        Dept deptnow = deptdao.findOne(deptid);//老部门部门
+        Dept deptNew = deptdao.findOne(changedeptid);//新转部门
+
+
+        User user1 = udao.findOne(newmanageid);//高圆圆
+        User user = udao.findOne(oldmanageid);//查到的赵天麒
+        user1.setRole(user.getRole());
+
+
+        //将人员（赵天麒）进行换部门 他部门要有领导就要设置fatherid.，没有就设置null 还要改一下身份，role——id
+        if (deptNew.getDeptmanager() == null || deptNew.getDeptmanager() == 0) {//新部门没领导
+            user.setFatherId(null);
+            user.setDept(deptNew);
+            user.setRole(user1.getRole());
+            Position position = pdao.findOne(positionid);
+            user.setPosition(position);
+            udao.save(user);
+
+        } else {//有领导
+            user.setFatherId(deptnow.getDeptmanager());
+            user.setDept(deptNew);
+            Position position = pdao.findOne(positionid);
+            user.setPosition(position);
+            udao.save(user);
+        }
+
+
+        //将部门（高圆圆）的新领导的fathorid设置为0或者null ，将部门进行设置managerID设置为新领导的userId 、将部门下面的人员的fathorid设置为高圆圆的新领导的
+
+        user1.setFatherId((long) 0);
+
+        udao.save(user1);
+
+
+        deptnow.setDeptmanager(user1.getUserId());//将部门管理设置为高圆圆的 保存一下
+        deptMapper.update(deptnow);
+
+        List<User> list = udao.findByDept(deptnow);
+        //循环员工将他们的fatoorid设置为高圆圆的
+        for (int i = 0; i < list.size(); i++) {//把自己排除掉
+            User user2 = list.get(i);
+
+            if (user2.getUserId() != user1.getUserId()) {
+                user2.setFatherId(user1.getUserId());
+                userMapper.updateFatherId(user2);
+            }
+
+        }
+
+
+
+
+       /* if (oldmanageid != null) {
             User oldmanage = udao.findOne(oldmanageid);
 
             Position namage = oldmanage.getPosition();
@@ -213,7 +302,7 @@ public class DeptController {
             deptnow.setDeptmanager(newmanageid);
             deptdao.save(deptnow);
             udao.save(newmanage);
-        }
+        }*/
 
 
         model.addAttribute("deptid", deptid);

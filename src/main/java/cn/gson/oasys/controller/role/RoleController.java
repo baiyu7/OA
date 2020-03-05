@@ -6,6 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import cn.gson.oasys.mappers.RoleMapper;
+import cn.gson.oasys.mappers.RolePowerListMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +36,10 @@ import cn.gson.oasys.services.system.MenuSysService;
 @Controller
 @RequestMapping("/")
 public class RoleController {
-
+    @Autowired
+    RolePowerListMapper rolePowerListMapper;
+    @Autowired
+    RoleMapper roleMapper;
     @Autowired
     private RoleDao rdao;
     @Autowired
@@ -191,7 +197,11 @@ public class RoleController {
      */
     @RequestMapping("deshan")
     public String index5(HttpServletRequest req, Model model, HttpSession session) {
-        String userId = ((String) session.getAttribute("userId")).trim();
+        String userId = session.getAttribute("userId") + "";
+
+//        String userId = ((String) session.getAttribute("userId")).toString();
+
+
         Long userid = Long.parseLong(userId);
         User user = udao.findOne(userid);
         String id = null;
@@ -206,14 +216,20 @@ public class RoleController {
                 model.addAttribute("error", "此角色下还有职员，不允许删除。");
                 return "common/proce";
             } else {
+                //要删除pk库的和role的关联
                 Role r = rdao.findOne(lid);
-                rdao.delete(r);
+                rolePowerListMapper.deleteRoleRolePowerList(r);
+
+                roleMapper.deleteRole(r);
+
+                model.addAttribute("success", "");
+                return "common/proce";
             }
         } else {
             model.addAttribute("error", "只有超级管理员才能操作。");
             return "common/proce";
         }
-        return null;
+
 
     }
 }
