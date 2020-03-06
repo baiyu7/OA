@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import cn.gson.oasys.mappers.DeptMapper;
 import cn.gson.oasys.mappers.UserMapper;
+import cn.gson.oasys.model.dao.roledao.RoleDao;
 import cn.gson.oasys.model.entity.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,8 @@ public class DeptController {
     UserMapper userMapper;
     @Autowired
     DeptMapper deptMapper;
+    @Autowired
+    RoleDao roleDao;
 
     /**
      * 第一次进入部门管理页面
@@ -132,8 +135,168 @@ public class DeptController {
                                         @RequestParam("deptid") Long deptid,//老部门id
                                         Model model) {
         //将该人的fathorID设置为部门的id。
+        //只允许普通员工调换
+        User u = udao.findOne(userid);
+        Role role = u.getRole();
+        Dept deptold = deptdao.findOne(deptid);//老部门
+        Dept deptnew = deptdao.findOne(changedeptid);//新部门
+        //总经理不支持调换
+        if (u.getRole().getRoleId() == 1) {
+            model.addAttribute("error", "管理员不支持调换");
+            return "user/deptprocess";
+        }
+        if (u.getFatherId() == -1) {//部门经理
+            model.addAttribute("error", "部门经理不支持调换");
+            return "user/deptprocess";
+        } else if (u.getFatherId() == -2) {//总裁
+            //当ceo
+            if (positionid == 1) {
+                model.addAttribute("error", "不支持调换管理员");
+                return "user/deptprocess";
+            } else if (positionid == 2) {//调换成CEo
+                u.setFatherId((long) 0);
+                Position position = pdao.findOne(positionid);
 
-        //要根据部门获取部门经理的id；设置父级id；如过没有部门经理，提示   更改一下部门和职位
+                Role role1 = roleDao.findOne((long) 2);
+                u.setRole(role1);
+                u.setPosition(position);
+                udao.save(u);
+                model.addAttribute("deptid", deptid);
+                return "/readdept";
+            } else if (positionid == 3) {//还是总裁
+                udao.save(u);
+                model.addAttribute("deptid", deptid);
+                return "/readdept";
+            } else {//总裁转换其他部门员工
+                u.setFatherId(deptnew.getDeptmanager());
+                u.setDept(deptnew);
+                Position position = pdao.findOne(positionid);
+                u.setPosition(position);
+                Role role1 = roleDao.findOne((long) 5);
+                u.setRole(role1);
+                udao.save(u);
+                model.addAttribute("deptid", deptid);
+                return "/readdept";
+            }
+
+        } else {//CEo或者普通员工
+            if (u.getRole().getRoleId() == 2) {//CEO
+                if (positionid == 1) {//Ceo调换管理员
+                    model.addAttribute("error", "不支持调换管理员");
+                    return "user/deptprocess";
+                } else if (positionid == 2) {//Ceo调换CEO
+                    udao.save(u);
+                    model.addAttribute("deptid", deptid);
+                    return "/readdept";
+                } else if (positionid == 3) {//Ceo调换总裁
+                    u.setFatherId((long) -2);
+                    u.setDept(deptnew);
+                    Position position = pdao.findOne(positionid);
+                    u.setPosition(position);
+                    Role role1 = roleDao.findOne((long) 3);
+                    u.setRole(role1);
+                    udao.save(u);
+                    model.addAttribute("deptid", deptid);
+                    return "/readdept";
+                } else {//ceo调换其他
+                    u.setFatherId(deptnew.getDeptmanager());
+                    u.setDept(deptnew);
+                    Position position = pdao.findOne(positionid);
+                    Role role1 = roleDao.findOne((long) 5);
+                    u.setRole(role1);
+                    u.setPosition(position);
+                    udao.save(u);
+
+                    model.addAttribute("deptid", deptid);
+                    return "/readdept";
+                }
+
+
+            } else {//普通员工
+
+                if (positionid == 1) {
+                    model.addAttribute("error", "不支持调换成管理员");
+                    return "user/deptprocess";
+                } else if (positionid == 2) {
+                    Position position = pdao.findOne(positionid);
+                    u.setPosition(position);
+                    Role role1 = roleDao.findOne((long) 2);
+                    u.setRole(role1);
+                    u.setDept(deptnew);
+                    u.setFatherId((long) 0);
+                    udao.save(u);
+                    model.addAttribute("deptid", deptid);
+                    return "/readdept";
+                } else if (positionid == 3) {
+                    u.setFatherId((long) -2);
+                    Position position = pdao.findOne(positionid);
+                    u.setPosition(position);
+                    Role role1 = roleDao.findOne((long) 3);
+                    u.setRole(role1);
+                    u.setDept(deptnew);
+                    udao.save(u);
+                    model.addAttribute("deptid", deptid);
+                    return "/readdept";
+                } else {
+                    u.setFatherId(deptnew.getDeptmanager());
+                    u.setDept(deptnew);
+                    Position position = pdao.findOne(positionid);
+                    u.setPosition(position);
+                    udao.save(u);
+                    Role role1 = roleDao.findOne((long) 5);
+                    u.setRole(role1);
+                    model.addAttribute("deptid", deptid);
+                    return "/readdept";
+                }
+            }
+        }
+
+    }
+
+
+//        if (u.getUserId() == deptold.getDeptmanager()) {
+//            model.addAttribute("error", "部门经理不支持调换");
+//            return "user/deptprocess";
+//        } else if (positionid == 1) {
+//            model.addAttribute("error", "不支持调换成管理员");
+//            return "user/deptprocess";
+//        }else if(role.getRoleId() == 1){
+//            model.addAttribute("error", "管理员不支持调换");
+//            return "user/deptprocess";
+//        }else{
+//
+//
+//        }
+
+
+      /*  if (role.getRoleId() == 2) {//CEO往出调
+            //有部门经理就将fathorid设为部门经理的id
+            u.setFatherId(deptnew.getDeptmanager());
+            u.setDept(deptnew);
+            Position position = pdao.findOne(positionid);
+            u.setPosition(position);
+            udao.save(u);
+
+            model.addAttribute("deptid", deptid);
+            return "/readdept";
+        } else if (role.getRoleId() == 3) {//总裁往出调
+            u.setFatherId(deptnew.getDeptmanager());
+            u.setDept(deptnew);
+            Position position = pdao.findOne(positionid);
+            u.setPosition(position);
+            udao.save(u);
+
+            model.addAttribute("deptid", deptid);
+            return "/readdept";
+        } else if (role.getRoleId() == 4) {//部门经理往出调
+
+        } else if () {
+
+        } else {//员工
+            //往总经办调换
+
+
+        }
 
         Dept dept = deptdao.findOne(changedeptid);//要新转的新部门
 
@@ -157,7 +320,7 @@ public class DeptController {
 //        Dept dept = deptdao.findOne(changedeptid);
 //        List<User> Puser = udao.findByDept(dept);
 
-/*
+*//*
         Iterator<User> iterator = Puser.iterator();
         while (iterator.hasNext()) {
             User puser = iterator.next();
@@ -184,7 +347,7 @@ public class DeptController {
 
         model.addAttribute("deptid", deptid);
         return "/readdept";*/
-    }
+
 
     @RequestMapping("deletdept") //部门下面有人删除应该给予提示呀
     public String deletdept(@RequestParam("deletedeptid") Long deletedeptid, Model model) {

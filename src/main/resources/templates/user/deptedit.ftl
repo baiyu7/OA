@@ -45,9 +45,11 @@
                 <!--盒子头-->
                 <div class="box-header">
                     <h3 class="box-title">
-                        <a href="##" class="label label-default" style="padding: 5px;">
-                            <i class="glyphicon glyphicon-chevron-left"></i> <span>返回</span>
-                        </a>
+<#--                        <a href="##" class="label label-default" style="padding: 5px;">-->
+                            <input class="btn btn-default" id="cancel" type="button" value="返回"
+                                   onclick="window.history.back();"/>
+<#--                            <i class="glyphicon glyphicon-chevron-left"></i> <span>返回</span>-->
+<#--                        </a>-->
                     </h3>
                 </div>
                 <!--盒子身体-->

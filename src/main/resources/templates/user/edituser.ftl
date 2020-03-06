@@ -194,17 +194,7 @@
                                     </select>
                                 </div>
                             </#if>
-                            <#if where??>
 
-                            <#else>
-                                <div class="col-md-6" id="deptmanage" style="display: none">
-                                    <label class="control-label"> <span>要管理的部门</span></label>
-                                    <#list depts as dept>
-                                        <span class="labels"><label>${dept.deptName}:<input name="deptCheck" value= "${dept.deptId}" type="checkbox"><i>✓</i></label></span>
-                                    </#list>
-
-                                </div>
-                            </#if>
 
                             <div class="col-md-6 form-group">
                                 <label class="control-label"><span>工资</span></label> <input
