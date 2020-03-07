@@ -406,6 +406,7 @@ public class AttendceController {
 		List<Long> ids = new ArrayList<>();
 		Page<User> userspage =userService.findmyemployuser(page, baseKey, userId);
 		for (User user : userspage) {
+
 			ids.add(user.getUserId());
 		}
 		if (ids.size() == 0) {
@@ -421,12 +422,16 @@ public class AttendceController {
 		List<Attends> alist = attenceDao.findoneweek(startdate, enddate, ids);
 		Set<Attends> attenceset = new HashSet<>();
 		for (User user : userspage) {
-			for (Attends attence : alist) {
-				if (Objects.equals(attence.getUser().getUserId(), user.getUserId())) {
-					attenceset.add(attence);
+			if(user.getIsLock()==0){
+				for (Attends attence : alist) {
+					if (Objects.equals(attence.getUser().getUserId(), user.getUserId())) {
+						attenceset.add(attence);
+					}
 				}
+				user.setaSet(attenceset);
 			}
-			user.setaSet(attenceset);
+
+
 		}
 		String[] weekday = { "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日" };
 		request.setAttribute("ulist", userspage.getContent());
