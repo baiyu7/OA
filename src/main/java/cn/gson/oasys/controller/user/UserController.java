@@ -347,20 +347,42 @@ public class UserController {
             dept.setDeptmanager((long) 0);
             int a = deptMapper.update(dept);
             //修改自己下面的员工
-
             List<User> list = udao.findByFatherId(userid);
             for (User userdemo : list) {
                 User user1 = userdemo;
-                user1.setFatherId((long) 0);
-                userMapper.updateFatherId(user1);
+                if (user1.getUserId() != userid) {
+                    user1.setFatherId((long) 0);
+                    userMapper.updateFatherId(user1);
+                }
+
             }
+            user.setRole(null);
+            user.setDept(null);
+            user.setPosition(null);
+            udao.save(user);
             model.addAttribute("success", 1);
             return "/usermanage";
 
+        } else if (user.getRole().getRoleId() == 2 || user.getRole().getRoleId() == 3) {//CEo//            总裁
+
+            user.setFatherId((long) 0);
+            userMapper.updateFatherId(user);
+            user.setRole(null);
+            user.setDept(null);
+            user.setPosition(null);
+            udao.save(user);
+
+            model.addAttribute("success", 1);
+            return "/usermanage";
         } else {//员工
             userMapper.updateIsLock(user);
             user.setFatherId((long) 0);
             userMapper.updateFatherId(user);
+            user.setRole(null);
+            user.setDept(null);
+            user.setPosition(null);
+            udao.save(user);
+
             model.addAttribute("success", 1);
             return "/usermanage";
         }

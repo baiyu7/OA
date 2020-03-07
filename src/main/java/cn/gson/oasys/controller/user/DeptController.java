@@ -110,11 +110,14 @@ public class DeptController {
         List<User> deptusers = udao.findByDept(dept);
 
         for (User deptuser : deptusers) {
-            Position position = deptuser.getPosition();
-            System.out.println(deptuser.getRealName() + ":" + position.getName());
-            if (!position.getName().endsWith("经理")) {
-                formaluser.add(deptuser);
+            if (deptuser.getIsLock() != 1) {
+                Position position = deptuser.getPosition();
+                System.out.println(deptuser.getRealName() + ":" + position.getName());
+                if (!position.getName().endsWith("经理")) {
+                    formaluser.add(deptuser);
+                }
             }
+
         }
         System.out.println(deptusers);
         model.addAttribute("positions", positions);
