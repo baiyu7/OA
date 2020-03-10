@@ -104,18 +104,21 @@ public class DeptController {
             model.addAttribute("deptmanage", deptmanage);
         }
         List<Dept> depts = (List<Dept>) deptdao.findAll();
-        List<Position> positions = pdao.findByDeptidAndNameNotLike(1L, "%经理");
+        List<Position> positions = pdao.findByDeptidAndNameNotLike(1L, "");
         System.out.println(deptmanage);
         List<User> formaluser = new ArrayList<>();
         List<User> deptusers = udao.findByDept(dept);
 
         for (User deptuser : deptusers) {
             if (deptuser.getIsLock() != 1) {
-                Position position = deptuser.getPosition();
-                System.out.println(deptuser.getRealName() + ":" + position.getName());
-                if (!position.getName().endsWith("经理")) {
-                    formaluser.add(deptuser);
+                if (deptuser.getFatherId() != -1) {
+                    Position position = deptuser.getPosition();
+                    System.out.println(deptuser.getRealName() + ":" + position.getName());
+
+                        formaluser.add(deptuser);
+
                 }
+
             }
 
         }
@@ -144,6 +147,11 @@ public class DeptController {
         Dept deptold = deptdao.findOne(deptid);//老部门
         Dept deptnew = deptdao.findOne(changedeptid);//新部门
         //总经理不支持调换
+        if (deptold.getDeptId() == deptnew.getDeptId()) {
+            model.addAttribute("error", "自己往自己部门调用有意思？");
+            return "user/deptprocess";
+        }
+
         if (u.getRole().getRoleId() == 1) {
             model.addAttribute("error", "管理员不支持调换");
             return "user/deptprocess";
@@ -429,9 +437,22 @@ public class DeptController {
         } else {//有领导
             //如果部门是1的话就要分情况了下面有CEO、总裁
             User u = udao.findOne(oldmanageid);//要转的人
+            Dept deptNew = deptdao.findOne(changedeptid);//转部门
+            if (newmanageid == null) {//部门有一个人经理调换自己的话就要设置fathorId和roleId
+                Position position = pdao.findOne(positionid);
+                u.setPosition(position);
+                Role role = roleDao.findOne((long) 5);
+                u.setRole(role);
+                u.setFatherId((long) 0);
+                deptNew.setDeptmanager((long) 0);
+                deptMapper.update(deptNew);
+                udao.save(u);
+                model.addAttribute("deptid", deptid);
+                return "/readdept";
+            }
             User user2 = udao.findOne(newmanageid);//新的部门领导
             Dept deptnow = deptdao.findOne(deptid);//老部门部门
-            Dept deptNew = deptdao.findOne(changedeptid);//转部门
+
 
             //     部门领导跟换的还是自己
             if (u.getUserId() == user2.getUserId()) {
@@ -440,7 +461,7 @@ public class DeptController {
             }
 
             //如果是自己内部转让
-            if (u.getDept().getDeptId() == user2.getDept().getDeptId()) {
+            if (deptnow.getDeptId() == deptNew.getDeptId()) {
                 //先将老领导的fathorId和positionID还有Role设置了，
                 u.setFatherId(user2.getUserId());
                 Position position = pdao.findOne(positionid);

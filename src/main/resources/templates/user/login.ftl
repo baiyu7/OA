@@ -34,7 +34,7 @@
 	<body style="background: url(images/user/03.jpg) no-repeat; background-size: 100%;">
 
 		<div class="" style="width: 360px;margin: 7% auto;z-index: 25;">
-			<div class="login-logo texta-c" style="color: #FFF">阿翔动力</div>
+			<div class="login-logo texta-c" style="color: #FFF"></div>
 			<div class="longin-box-body" style="border-radius:10px;box-shadow: 1px 1px 1px 1px #333;">
 				<p class="login-box-msg">让办公更加轻松有趣！</p>
 				<form>

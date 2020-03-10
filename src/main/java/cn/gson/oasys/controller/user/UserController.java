@@ -417,7 +417,7 @@ public class UserController {
     public @ResponseBody
     List<Position> selectdept(@RequestParam("selectdeptid") Long deptid) {
 
-        return pdao.findByDeptidAndNameNotLike(deptid, "%经理");
+        return pdao.findByDeptidAndNameNotLike(deptid, "");
     }
 
 
