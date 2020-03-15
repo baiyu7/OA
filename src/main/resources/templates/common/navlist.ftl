@@ -25,7 +25,7 @@
 				</#if>
 				</a>
 		</li>
-		<li><a href="javascript:changepath('/mytask');" class="green-none white"><span
+		<#--<li><a href="javascript:changepath('/mytask');" class="green-none white"><span
 				class="glyphicon glyphicon-flag"></span>
 				<#if task==0>
 					<span class="badge red-badge"></span>
@@ -33,7 +33,7 @@
 					<span class="badge red-badge">${(task)!''}</span>
 				</#if>
 				</a>
-		</li>
+		</li>-->
 		<li class="dropdown">
 		<!--设置导航栏头像面板--> 
 		<a href="#" class="green-none white" data-toggle="dropdown">

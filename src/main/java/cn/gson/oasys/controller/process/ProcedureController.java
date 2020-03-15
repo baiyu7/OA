@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import cn.gson.oasys.model.dao.user.DeptDao;
+import cn.gson.oasys.model.entity.user.Dept;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,7 +119,8 @@ public class ProcedureController {
     private ResignDao rsdao;
     @Autowired
     private AttendceDao adao;
-
+    @Autowired
+    private DeptDao deptDao;
     private static Logger logger = LoggerFactory.getLogger(ProcedureController.class);
     //	@Value("${attachment.roopath}")
     private String rootpath;
@@ -419,6 +422,9 @@ public class ProcedureController {
                            @RequestParam(value = "page", defaultValue = "0") int page,
                            @RequestParam(value = "size", defaultValue = "10") int size) {
         User u = udao.findOne(userId);
+        String username = req.getParameter("userName");
+        User uu = udao.findByUserName(username);
+//        User uuu = udao.findid(username);
 
         //流程id
         Long id = Long.parseLong(req.getParameter("id"));
@@ -440,6 +446,31 @@ public class ProcedureController {
         }
         proservice.user(page, size, model);
         List<Map<String, Object>> list = proservice.index4(process);
+
+
+        if (u.getDept().getDeptName().contains("人事")) {
+            model.addAttribute("statusid", process.getStatusId());
+            model.addAttribute("process", process);
+            model.addAttribute("revie", list);
+            model.addAttribute("size", list.size());
+            model.addAttribute("statusid", process.getStatusId());
+            model.addAttribute("ustatusid", re.getStatusId());
+            model.addAttribute("positionid", u.getPosition().getId());
+            model.addAttribute("typename", typename);
+            return "process/audetialNew";
+        }
+
+        if (uu.getRole().getRoleId() == 4 && uu.getDept().getDeptmanager() == uu.getUserId()) {
+            model.addAttribute("statusid", process.getStatusId());
+            model.addAttribute("process", process);
+            model.addAttribute("revie", list);
+            model.addAttribute("size", list.size());
+            model.addAttribute("statusid", process.getStatusId());
+            model.addAttribute("ustatusid", re.getStatusId());
+            model.addAttribute("positionid", u.getPosition().getId());
+            model.addAttribute("typename", typename);
+            return "process/audetialNew";
+        }
 
         model.addAttribute("statusid", process.getStatusId());
         model.addAttribute("process", process);
@@ -492,12 +523,20 @@ public class ProcedureController {
                     }
                 }
 
-            } else if (("费用报销").equals(typename) || ("出差费用").equals(typename)) {
+            } else if (("费用报销").equals(typename)) {
 
                 if (u2.getPosition().getId().equals(5L)) {
                     proservice.save(proid, u, reviewed, pro, u2);
                 } else {
                     model.addAttribute("error", "请选财务经理。");
+                    return "common/proce";
+                }
+            } else if (("出差申请").equals(typename)) {
+                if (u2.getDept().getDeptName().contains("人事")) {
+                    proservice.save(proid, u, reviewed, pro, u2);
+
+                } else {
+                    model.addAttribute("error", "请选人事部门人员。");
                     return "common/proce";
                 }
             } else {
@@ -706,26 +745,78 @@ public class ProcedureController {
      * @Description:
      */
     @RequestMapping("evec")
-    public String evec(@RequestParam("filePath") MultipartFile filePath, HttpServletRequest req, @Valid Evection eve, BindingResult br,
-                       @SessionAttribute("userId") Long userId) throws IllegalStateException, IOException {
+    public String evec(@RequestParam("filePath") MultipartFile filePath, HttpServletResponse res, HttpServletRequest req, @Valid Evection eve, BindingResult br,
+                       @SessionAttribute("userId") Long userId, Model model) throws IllegalStateException, IOException {
+        //传过来的userId看看查找他的部门领导看是不是空？
+
+
         User lu = udao.findOne(userId);//申请人
         User shen = udao.findByUserName(eve.getNameuser());//审核人
         Long roleid = lu.getRole().getRoleId();//申请人角色id
         Long fatherid = lu.getFatherId();//申请人父id
         Long userid = shen.getUserId();//审核人userid
         String val = req.getParameter("val");
-        if (roleid >= 3L && Objects.equals(fatherid, userid)) {
-            //set主表
+
+
+        //分别为总裁、部门经理、普通员工；
+        // 总裁申报给指定的CEo就行
+
+        if (lu.getRole().getRoleId() == 3) {
+            if (shen.getRole().getRoleId() != 2) {
+                model.addAttribute("error", "您是总裁，上级要选择CEO");
+                return "common/Proprocess";
+            }
             ProcessList pro = eve.getProId();
             proservice.index5(pro, val, lu, filePath, shen.getUserName());
             edao.save(eve);
             //存审核表
             proservice.index7(shen, pro);
-        } else {
-            return "common/proce";
+            return "redirect:/xinxeng";
+        } else if (lu.getRole().getRoleId() == 4) {
+            //部门经理得找总裁
+            if (shen.getRole().getRoleId() != 3) {
+                model.addAttribute("error", "您是部门经理，上级要选择总裁");
+                return "common/Proprocess";
+            }
+            ProcessList pro = eve.getProId();
+            proservice.index5(pro, val, lu, filePath, shen.getUserName());
+            edao.save(eve);
+            //存审核表
+            proservice.index7(shen, pro);
+            return "redirect:/xinxeng";
+
+        } else {//普通员工
+            Dept dept = deptDao.findOne(lu.getDept().getDeptId());
+            if (dept.getDeptmanager() == (long) 0 || dept.getDeptmanager() == null) {
+                model.addAttribute("error", "你没有部门经理");
+                return "common/Proprocess";
+            }
+            if (dept.getDeptmanager() != shen.getUserId()) {
+                model.addAttribute("error", "所选上级有误");
+                return "common/Proprocess";
+            }
+            ProcessList pro = eve.getProId();
+            proservice.index5(pro, val, lu, filePath, shen.getUserName());
+            edao.save(eve);
+            //存审核表
+            proservice.index7(shen, pro);
+            return "redirect:/xinxeng";
+
         }
 
-        return "redirect:/xinxeng";
+
+//        if (roleid >= 3L && Objects.equals(fatherid, userid)) {
+//            //set主表
+//            ProcessList pro = eve.getProId();
+//            proservice.index5(pro, val, lu, filePath, shen.getUserName());
+//            edao.save(eve);
+//            //存审核表
+//            proservice.index7(shen, pro);
+//        } else {
+//            return "common/proce";
+//        }
+//
+//        return "redirect:/xinxeng";
     }
 
     //加班申请

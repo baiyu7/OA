@@ -38,8 +38,8 @@
 						</#if>
 						</span></th>
 					<th scope="col">发布人</th>
-					<th scope="col">部门</th>
-					<th scope="col">置顶</th>
+<#--					<th scope="col">部门</th>-->
+<#--					<th scope="col">置顶</th>-->
 					<th scope="col">链接</th>
 					<th scope="col">操作</th>
 				</tr>
@@ -48,42 +48,33 @@
 					
 					<td>${this.type}</td>
 					<td><span class="label ${(this.statusColor)!''}">${this.status}</span></td>
-					<#if this.is_read==0>
+				<#--	<#if this.is_read==0>
 					<td class="c"><span>${(this.title)!''}</span></td>
 					<#else>
-					<td><span>${(this.title)!''}</span></td>
-					</#if>
+
+					</#if>-->
+					<td><span>${(this.title)}</span></td>
 					<td><span>${this.notice_time}</span></td>
 					<td><span>${this.userName}</span></td>
-					<td><span>${this.deptName}</span></td>
-					<#if this.is_top==1>
-					<td><span class="labels"><label><input
-								type="checkbox" checked disabled><i>✓</i></label></span></td>
-					<#else>
-					<td><span class="labels"><label><input
-								type="checkbox" disabled><i>✓</i></label></span></td></#if>
-					<#if this.url!=''>
-					<td><span class="glyphicon glyphicon-link"></span></td>
-					<#else>
-					<td><span class="labels"></span></td></#if>
-					<td><a href="informshow?id=${this.notice_id}&read=${this.is_read}&relationid=${this.relatin_id}"
+					<td><span>${this.url}</span></td>
+					<td><a href="informshow?id=${this.notice_id}"
 						class="label xiugai chakan"><span class="glyphicon glyphicon-search"></span>
 							查看</a> 
-							<#if this.contain!=1>
-								<#if this.contain==3>
-									<a href="forwardother?noticeId=${this.notice_id}" onclick="{return confirm('确定转发给自己的下属吗？');};" class="label xinzeng chakan forwardthis"><span class="glyphicon glyphicon-log-out"></span>
-									转发</a> 
-								<#else>
-									<a href="javascript:void(0);" class="label sheding chakan"><span class="glyphicon glyphicon-log-out"></span>
-									已转发</a> 
-								</#if>
-							</#if>
-							<#if this.is_read==0> 
-							<#else> 
+<#--							<#if this.contain!=1>-->
+<#--								<#if this.contain==3>-->
+<#--									<a href="forwardother?noticeId=${this.notice_id}" onclick="{return confirm('确定转发给自己的下属吗？');};" class="label xinzeng chakan forwardthis"><span class="glyphicon glyphicon-log-out"></span>-->
+<#--									转发</a>-->
+<#--								<#else>-->
+<#--									<a href="javascript:void(0);" class="label sheding chakan"><span class="glyphicon glyphicon-log-out"></span>-->
+<#--									已转发</a>-->
+<#--								</#if>-->
+<#--							</#if>-->
+<#--							<#if this.is_read==0> -->
+<#--							<#else> -->
 							<a onclick="{return confirm('删除该记录将不能恢复，确定删除吗？');};"
 							href="informlistdelete?id=${this.notice_id}" class="label shanchu"> 
 							<span class="glyphicon glyphicon-remove"></span> 删除
-						</a></#if></td>
+						</a></td>
 				</tr>
 				</#list>
 			</table>

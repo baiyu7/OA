@@ -114,7 +114,7 @@
 			<div class="jichu chat">
 				<div class="wenzi">
 					<h2>${discussnum}</h2>
-					<p>讨论区</p>
+					<p>工作圈</p>
 				</div>
 				<div class="iconfont">
 					<span class="glyphicon glyphicon-comment"></span>
@@ -134,121 +134,121 @@
 		<!-- 统计 -->
 
 		
-		
-			<!--第一个公告通知-->
-			<div class="panel panel-default box-show green-box">
-				<div class="panel-heading box-show-heading"
-					style="background: white;">
-					<div class="panel-title" style="display: inline-block;">
-						<h4>公告通知</h4>
-					</div>
-					<div class="pull-right right-btn-group dropdown"
-						style="display: inline-block;">
-						<div style="display: inline-block;">
-							<button data-toggle="dropdown" >
-								<span class="glyphicon glyphicon-menu-hamburger"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li><a href="infrommanage">公告通知</a></li>
-							</ul>
-						</div>
-						<a  ><button>
-								<span class="glyphicon glyphicon-minus shousuo"></span>
-							</button></a>
-						<button>
-							<span class="glyphicon glyphicon-remove"></span>
-						</button>
-					</div>
-				</div>
-				
-				<div id="" class="shrink">
-					<table class="table table-hover" >
-						<tr>
-							<th>发布</th>
-							<th>日期</th>
-							<th>状态</th>
-							<th>标题</th>
-							<th></th>
-						</tr>
-						<#list noticeList as notice>
-							<tr>
-								<td>${notice.deptName}</td>
-								<td>${notice.notice_time}</td>
-								<td><span class="label ${(notice.statusColor)!''}">${notice.status}</span></td>
-								<td><span>${(notice.title)!''}</span></td>
-								<td><a href="informshow?id=${notice.notice_id}&read=${notice.is_read}&relationid=${notice.relatin_id}" class="look-xiangxi"><span
-										class="glyphicon glyphicon-search"> </span> 查看 </a></td>
-							</tr>
-						</#list>
-						
-					</table>
-				</div>
-			</div>
-			<!--第二个box；流程管理-->
+<#--		-->
+<#--			<!--第一个公告通知&ndash;&gt;-->
+<#--			<div class="panel panel-default box-show green-box">-->
+<#--				<div class="panel-heading box-show-heading"-->
+<#--					style="background: white;">-->
+<#--					<div class="panel-title" style="display: inline-block;">-->
+<#--						<h4>公告通知</h4>-->
+<#--					</div>-->
+<#--					<div class="pull-right right-btn-group dropdown"-->
+<#--						style="display: inline-block;">-->
+<#--						<div style="display: inline-block;">-->
+<#--							<button data-toggle="dropdown" >-->
+<#--								<span class="glyphicon glyphicon-menu-hamburger"></span>-->
+<#--							</button>-->
+<#--							<ul class="dropdown-menu">-->
+<#--								<li><a href="infrommanage">公告通知</a></li>-->
+<#--							</ul>-->
+<#--						</div>-->
+<#--						<a  ><button>-->
+<#--								<span class="glyphicon glyphicon-minus shousuo"></span>-->
+<#--							</button></a>-->
+<#--						<button>-->
+<#--							<span class="glyphicon glyphicon-remove"></span>-->
+<#--						</button>-->
+<#--					</div>-->
+<#--				</div>-->
+<#--				-->
+<#--				<div id="" class="shrink">-->
+<#--					<table class="table table-hover" >-->
+<#--						<tr>-->
+<#--							<th>发布</th>-->
+<#--							<th>日期</th>-->
+<#--							<th>状态</th>-->
+<#--							<th>标题</th>-->
+<#--							<th></th>-->
+<#--						</tr>-->
+<#--						<#list noticeList as notice>-->
+<#--							<tr>-->
+<#--								<td>${notice.deptName}</td>-->
+<#--								<td>${notice.notice_time}</td>-->
+<#--								<td><span class="label ${(notice.statusColor)!''}">${notice.status}</span></td>-->
+<#--								<td><span>${(notice.title)!''}</span></td>-->
+<#--								<td><a href="informshow?id=${notice.notice_id}&read=${notice.is_read}&relationid=${notice.relatin_id}" class="look-xiangxi"><span-->
+<#--										class="glyphicon glyphicon-search"> </span> 查看 </a></td>-->
+<#--							</tr>-->
+<#--						</#list>-->
+<#--						-->
+<#--					</table>-->
+<#--				</div>-->
+<#--			</div>-->
+<#--			<!--第二个box；流程管理&ndash;&gt;-->
 
-			<!--第三个box；工作计划-->
-			<div class="panel panel-default box-show green-box">
-				<div class="panel-heading box-show-heading"
-					style="background: white;">
-					<div class="panel-title" style="display: inline-block;">
-						<h4>工作计划</h4>
-					</div>
-					<div class="pull-right right-btn-group dropdown"
-						style="display: inline-block;">
-						<div style="display: inline-block;">
-							<button data-toggle="dropdown">
-								<span class="glyphicon glyphicon-menu-hamburger"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li><a href="planview">计划管理</a></li>
-								<li><a href="planedit?pid=-1">新增计划</a></li>
-							</ul>
-						</div>
-						<a  ><button>
-								<span class="glyphicon glyphicon-minus shousuo"></span>
-							</button></a>
-						<button>
-							<span class="glyphicon glyphicon-remove"></span>
-						</button>
-					</div>
-				</div>
-				<div id="" class="shrink">
-					<table class="table table-hover" >
-						<tr>
-							<th>类型</th>
-							<th>结束日期</th>
-							<th>状态</th>
-							<th>标题</th>
-							<th></th>
-						</tr>
-						<#list planList as plan>
-							<tr>
-								<td>
-								<#list ptypelist as ptype>
-								<#if plan.typeId==ptype.typeId>
-									${(ptype.typeName)!''}
-								</#if>
-								</#list>
-								</td>
-								<td>${(plan.endTime)!''}</td>
-								<#list pstatuslist as pstatus>
-								<#if pstatus.statusId==plan.statusId>
-								<td>
-								<span class="label ${(pstatus.statusColor)!''}">${(pstatus.statusName)!''}</span>
-								</td>
-								</#if>
-								</#list>
-								
-								
-								<td><span>${(plan.title)!''}</span></td>
-								<td><a href="planedit?pid=${plan.planId}" class="look-xiangxi"><span
-										class="glyphicon glyphicon-search"> </span> 查看 </a></td>
-							</tr>
-						</#list>
-					</table>
-				</div>
-			</div>
-		</div>
+<#--			<!--第三个box；工作计划&ndash;&gt;-->
+<#--			<div class="panel panel-default box-show green-box">-->
+<#--				<div class="panel-heading box-show-heading"-->
+<#--					style="background: white;">-->
+<#--					<div class="panel-title" style="display: inline-block;">-->
+<#--						<h4>工作计划</h4>-->
+<#--					</div>-->
+<#--					<div class="pull-right right-btn-group dropdown"-->
+<#--						style="display: inline-block;">-->
+<#--						<div style="display: inline-block;">-->
+<#--							<button data-toggle="dropdown">-->
+<#--								<span class="glyphicon glyphicon-menu-hamburger"></span>-->
+<#--							</button>-->
+<#--							<ul class="dropdown-menu">-->
+<#--								<li><a href="planview">计划管理</a></li>-->
+<#--								<li><a href="planedit?pid=-1">新增计划</a></li>-->
+<#--							</ul>-->
+<#--						</div>-->
+<#--						<a  ><button>-->
+<#--								<span class="glyphicon glyphicon-minus shousuo"></span>-->
+<#--							</button></a>-->
+<#--						<button>-->
+<#--							<span class="glyphicon glyphicon-remove"></span>-->
+<#--						</button>-->
+<#--					</div>-->
+<#--				</div>-->
+<#--				<div id="" class="shrink">-->
+<#--					<table class="table table-hover" >-->
+<#--						<tr>-->
+<#--							<th>类型</th>-->
+<#--							<th>结束日期</th>-->
+<#--							<th>状态</th>-->
+<#--							<th>标题</th>-->
+<#--							<th></th>-->
+<#--						</tr>-->
+<#--						<#list planList as plan>-->
+<#--							<tr>-->
+<#--								<td>-->
+<#--								<#list ptypelist as ptype>-->
+<#--								<#if plan.typeId==ptype.typeId>-->
+<#--									${(ptype.typeName)!''}-->
+<#--								</#if>-->
+<#--								</#list>-->
+<#--								</td>-->
+<#--								<td>${(plan.endTime)!''}</td>-->
+<#--								<#list pstatuslist as pstatus>-->
+<#--								<#if pstatus.statusId==plan.statusId>-->
+<#--								<td>-->
+<#--								<span class="label ${(pstatus.statusColor)!''}">${(pstatus.statusName)!''}</span>-->
+<#--								</td>-->
+<#--								</#if>-->
+<#--								</#list>-->
+<#--								-->
+<#--								-->
+<#--								<td><span>${(plan.title)!''}</span></td>-->
+<#--								<td><a href="planedit?pid=${plan.planId}" class="look-xiangxi"><span-->
+<#--										class="glyphicon glyphicon-search"> </span> 查看 </a></td>-->
+<#--							</tr>-->
+<#--						</#list>-->
+<#--					</table>-->
+<#--				</div>-->
+<#--			</div>-->
+<#--		</div>-->
 
 		<!--内容右侧5个格子；-->
 		<div class="rightcolmd">

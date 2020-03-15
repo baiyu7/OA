@@ -109,13 +109,15 @@ public class DeptController {
         List<User> formaluser = new ArrayList<>();
         List<User> deptusers = udao.findByDept(dept);
 
-        for (User deptuser : deptusers) {
+        for (User de : deptusers) {
+            User deptuser = de;
             if (deptuser.getIsLock() != 1) {
-                if (deptuser.getFatherId() != -1) {
+                Long a = deptuser.getFatherId();
+                if (a != (long) -1) {
                     Position position = deptuser.getPosition();
                     System.out.println(deptuser.getRealName() + ":" + position.getName());
 
-                        formaluser.add(deptuser);
+                    formaluser.add(deptuser);
 
                 }
 
@@ -249,7 +251,7 @@ public class DeptController {
                     model.addAttribute("deptid", deptid);
                     return "/readdept";
                 } else {
-                    u.setFatherId(deptnew.getDeptmanager());
+                    u.setFatherId((long)0);
                     u.setDept(deptnew);
                     Position position = pdao.findOne(positionid);
                     u.setPosition(position);
@@ -439,7 +441,7 @@ public class DeptController {
             User u = udao.findOne(oldmanageid);//要转的人
             Dept deptNew = deptdao.findOne(changedeptid);//转部门
             if (newmanageid == null) {//部门有一个人经理调换自己的话就要设置fathorId和roleId
-                Position position = pdao.findOne(positionid);
+              /*  Position position = pdao.findOne(positionid);
                 u.setPosition(position);
                 Role role = roleDao.findOne((long) 5);
                 u.setRole(role);
@@ -448,7 +450,9 @@ public class DeptController {
                 deptMapper.update(deptNew);
                 udao.save(u);
                 model.addAttribute("deptid", deptid);
-                return "/readdept";
+                return "/readdept";*/
+                model.addAttribute("error", "？?");
+                return "user/deptprocess";
             }
             User user2 = udao.findOne(newmanageid);//新的部门领导
             Dept deptnow = deptdao.findOne(deptid);//老部门部门

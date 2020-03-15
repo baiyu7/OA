@@ -212,7 +212,7 @@ border-top: 1px solid #2196F3;
 									<td style="width:130px;text-align:center;background-color:#6d9eeb;">
 										<div class="mon">
 											<p style="height:20px;"></p>
-											<span>经理意见</span>
+											<span>上级意见</span>
 										</div>
 									</td>
 									<td colspan="13"><p style="margin-top: 20px;font-size:16px;">${(eve.managerAdvice)!''}</p></td>
@@ -222,7 +222,7 @@ border-top: 1px solid #2196F3;
 									<td style="width:130px;text-align:center;background-color:#6d9eeb;">
 										<div class="mon">
 											<p style="height:20px;"></p>
-											<span>人事经理意见</span>
+											<span>人事部门意见</span>
 											
 										</div>
 									</td>

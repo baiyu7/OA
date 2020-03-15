@@ -6,23 +6,23 @@
 	<!--两个表联合查询得到本用户的所有通知列表  -->
 	<select id="findMyNotice" resultType="java.util.Map">
 		SELECT n.*,u.* FROM
-		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
-		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} ORDER BY
-		n.is_top DESC,u.is_read ASC ,n.modify_time DESC
+		aoa_notice_list AS n LEFT JOIN aoa_user AS u ON
+		n.user_id=u.user_id WHERE u.user_id=#{userId} ORDER BY
+		n.is_top DESC ,n.modify_time DESC
 	</select>
 	
 	<!-- 在控制面板限制条数为5 -->
 	<select id="findMyNoticeLimit" resultType="java.util.Map">
-		SELECT n.*,u.* FROM
-		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
-		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} ORDER BY
-		n.is_top DESC,u.is_read ASC ,n.modify_time DESC LIMIT 5
+			SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_user AS u ON
+		n.user_id=u.user_id WHERE u.user_id=#{userId} ORDER BY
+		n.is_top DESC ,n.modify_time DESC  LIMIT 5
 	</select>
 	
 	<select id="sortMyNotice" resultType="java.util.Map">
 		SELECT n.*,u.* FROM
-		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
-		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} 
+		aoa_notice_list AS n LEFT JOIN aoa_user AS u ON
+		n.user_id=u.user_id WHERE u.user_id=#{userId}
 		<if test="baseKey !=null">
 			and n.title LIKE '%${baseKey}%'
 		</if>

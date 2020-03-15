@@ -115,7 +115,7 @@ border-top: 1px solid #2196F3;
 }
 .fo{
 	border-top: 1px solid #2196F3;
-   
+
 }
 </style>
 <div class="row" style="padding-top: 10px;">
@@ -129,15 +129,15 @@ border-top: 1px solid #2196F3;
 </div>
 <div class="row" style="padding-top: 15px;">
 	<div class="col-md-12">
-		
+
 		<div class="bgc-w box">
-			
+
 			<div class="box-header">
 				<table class="bo table ">
-			
+
 				<tr >
 					<td colspan="14" class="title"><h2>${map.typename}单</h2></td>
-			
+
 				</tr>
 				<tr style="opacity: 0;">
 					<td colspan="14">11</td>
@@ -146,10 +146,10 @@ border-top: 1px solid #2196F3;
 					<td class="wi" style="width: 100px;" ><label class="control-label">标题</label></td>
 					<td colspan="7" class="underline" style="width:160px;"><div class="bottom" ><label class="control-label">${map.processName}</label></div></td>
 					<td class="css" style="width:30px;"></td>
-					
+
 					<td class="wi" style="width: 72px;"><label class="control-label">紧急程度</label></td>
 					<td colspan="4" class="underline" style="width: 60px;"><div class="bottom">${map.harryname}</div></td>
-					
+
 				</tr>
 				<tr >
 					<td class="wi"  style="width: 100px;"><label class="control-label">提单人员</label></td>
@@ -160,13 +160,13 @@ border-top: 1px solid #2196F3;
 					<td class="css" style="width:30px;"></td>
 					<td class="wi"><label class="control-label">提单日期</label></td>
 					<td colspan="4" ><div class="bottom">${map.applytime}</div></td>
-					
+
 				</tr>
-				
+
 				<tr class="top ss">
 					<td colspan="14" class="wi "><div class="bottom" ><label class="control-label font">申请明细</label></div></td>
 				</tr>
-				
+
 				<tr class="rile two">
 					<td class="wi" style="width:100px;"><label class="control-label">开始日期</label></td>
 					<td  style="width:170px;"><div class="bottom">${map.startime}</div></td>
@@ -177,7 +177,7 @@ border-top: 1px solid #2196F3;
 					<td class="wi"><label class="control-label">出差天数</label></td>
 					<td colspan="4" ><div class="bottom">${(map.tianshu)!''}</div></td>
 				</tr>
-				
+
 				<tr class="rile">
 					<td class="wi" style="width:100px;"><label class="control-label">相关资料</label></td>
 					<td  style="width:140px;"><div class="bottom">
@@ -191,7 +191,7 @@ border-top: 1px solid #2196F3;
 						</#if>
 					</div></td>
 					<td class="css" colspan="12" ></td>
-					
+
 				</tr>
 				<tr class="rile" style="height:70px;">
 					<td colspan="14"  >
@@ -202,7 +202,7 @@ border-top: 1px solid #2196F3;
 										<div class="mon">
 											<p style="height:20px;"></p>
 											<span>出差事由</span>
-											
+
 										</div>
 									</td>
 									<td colspan="13"><p style="margin-top: 20px;font-size:16px;">${(map.processDescribe)!''}</p></td>
@@ -222,18 +222,18 @@ border-top: 1px solid #2196F3;
 									<td style="width:130px;text-align:center;background-color:#6d9eeb;">
 										<div class="mon">
 											<p style="height:20px;"></p>
-											<span>经理意见</span>
+											<span>上级意见</span>
 										</div>
 									</td>
 									<td colspan="13"><p style="margin-top: 20px;font-size:16px;">${(eve.managerAdvice)!''}</p></td>
 								</tr>
-								
+
 								<tr>
 									<td style="width:130px;text-align:center;background-color:#6d9eeb;">
 										<div class="mon">
 											<p style="height:20px;"></p>
-											<span>人事经理意见</span>
-											
+											<span>人事部门意见</span>
+
 										</div>
 									</td>
 									<td colspan="13"><p style="margin-top: 20px;font-size:16px;">${(eve.personnelAdvice)!''}</p></td>
@@ -251,12 +251,12 @@ border-top: 1px solid #2196F3;
 							<a class="btn btn-default fault" onclick="javascript:window.print();">
 			   					<span class="glyphicon glyphicon glyphicon-print"></span> 打印</a>
 			   				<#if map.name="审核">
-							<a class="btn btn-primary huifu" href="auditing?id=${map.proId}">
-							<span class="glyphicon glyphicon-zoom-in"></span> 审核</a> 
+							<a class="btn btn-primary huifu" href="auditing?id=${map.proId}&userName=${map.username}">
+							<span class="glyphicon glyphicon-zoom-in"></span> 审核</a>
 							<#else>
 								<#if map.statusid==25>
-								<a class="btn btn-primary huifu" href="evemoney?id=${map.proId}">
-							       <span class="glyphicon glyphicon-zoom-in"></span> 出差费用申请</a> 
+								<a class="btn btn-primary huifu" href="evemoney?id=${map.proId}&userName=${map.username}">
+							       <span class="glyphicon glyphicon-zoom-in"></span> 出差费用申请</a>
 								</#if>
 							</#if>
 						</div>
@@ -269,7 +269,7 @@ border-top: 1px solid #2196F3;
 </div>
 <script>
 	$(function(){
-	
+
 		$('.yulan').popover({
     		html:true,
     		placement:'auto right',

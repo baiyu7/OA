@@ -99,15 +99,15 @@ margin-bottom: 48px;
 						</div>
 					</div>
 					</a>
-					<a href="regular">
-					<div class="col-md-3 form-group">
-					<label class="control-label" style="float:left;"><img src="images/zhuanzhneg.jpg" style="width:100px;height:100px;"></label>
-						<div>
-						<h4>转正申请单</h4><br>
-						<h5>指转正申请单</h5>
-						</div>
-					</div>
-					</a>
+<#--					<a href="regular">-->
+<#--					<div class="col-md-3 form-group">-->
+<#--					<label class="control-label" style="float:left;"><img src="images/zhuanzhneg.jpg" style="width:100px;height:100px;"></label>-->
+<#--						<div>-->
+<#--						<h4>转正申请单</h4><br>-->
+<#--						<h5>指转正申请单</h5>-->
+<#--						</div>-->
+<#--					</div>-->
+<#--					</a>-->
 					<a href="holiday">
 					<div class="col-md-3 form-group">
 					<label class="control-label" style="float:left;"><img src="images/qingjia.jpg" style="width:100px;height:100px;"></label>

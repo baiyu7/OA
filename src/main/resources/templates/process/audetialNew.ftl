@@ -171,15 +171,7 @@
                             <option value="26">未通过</option>
                         </select>
                     </div>
-                    <div class="col-md-6 form-group" style="position: relative;">
-                        <label class="control-label" data-toggle="modal" data-target="#myModal">下一步审核人</label>
-                        <input name="username" type="text" id="recive_list"
-                               class="form-control " readonly="readonly" style="background-color:#fff;"/>
-                        <div class="reciver">
-								<span class="label label-success glyphicon glyphicon-plus"
-                                      data-toggle="modal" data-target="#myModal">通讯录</span>
-                        </div>
-                    </div>
+
                     <div class="col-md-6 form-group" style="float: none;">
                         <label class="control-label">审核理由</label>
                         <textarea class="form-control text" name="advice"></textarea>
@@ -200,7 +192,8 @@
                     <#else>
                         <#if ustatusid ==23>
 
-                                <input class="btn btn-info liu" id="saves" type="submit" value="审核并流转" name="liuzhuan"/>
+                                <input class="btn btn-success" id="save" type="submit" value="审核并结案"/>
+
 
 
                         </#if>
