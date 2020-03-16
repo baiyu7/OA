@@ -1277,7 +1277,7 @@ public class ProcedureController {
     public void downFile(HttpServletResponse response, @RequestParam("fileid") Long fileid) {
         try {
             Attachment attd = AttDao.findOne(fileid);
-            File file = new File(rootpath, attd.getAttachmentPath());
+            File file = new File(attd.getAttachmentPath());
             response.setContentLength(attd.getAttachmentSize().intValue());
             response.setContentType(attd.getAttachmentType());
             response.setHeader("Content-Disposition", "attachment;filename=" + new String(attd.getAttachmentName().getBytes("UTF-8"), "ISO8859-1"));
