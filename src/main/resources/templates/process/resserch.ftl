@@ -230,7 +230,7 @@ border-top: 1px solid #2196F3;
 									<td style="width:130px;text-align:center;background-color:#6d9eeb;">
 										<div class="mon">
 											<p style="height:20px;"></p>
-											<span>财务经理意见</span>
+											<span>财务部门意见</span>
 											
 										</div>
 									</td>

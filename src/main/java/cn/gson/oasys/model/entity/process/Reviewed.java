@@ -19,108 +19,106 @@ import javax.persistence.Transient;
 import cn.gson.oasys.model.entity.user.User;
 
 @Entity
-@Table(name="aoa_reviewed")
+@Table(name = "aoa_reviewed")
 //审核表
 public class Reviewed {
 
-	@Id
-	@Column(name="reviewed_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long reviewedId;
-	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User userId;//审核人
-	
-	private String advice; //审核人意见
-	
-	private Long statusId;//审核人状态
-	
-	@Column(name="reviewed_time")
-	private Date reviewedTime;//审核时间
-	
-	@ManyToOne
-	@JoinColumn(name="pro_id")
-	private ProcessList proId;
-	
-	@Column(name="del")
-	private Boolean del=false;
-	
-	@Transient
-	private String username;//传过来的审核人的名字
-	
+    @Id
+    @Column(name = "reviewed_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reviewedId;
 
-	public String getUsername() {
-		return username;
-	}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User userId;//审核人
+    @Column(name = "advice")
+    private String advice; //审核人意见
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    private Long statusId;//审核人状态
 
-	public Boolean getDel() {
-		return del;
-	}
+    @Column(name = "reviewed_time")
+    private Date reviewedTime;//审核时间
 
-	public void setDel(Boolean del) {
-		this.del = del;
-	}
+    @ManyToOne
+    @JoinColumn(name = "pro_id")
+    private ProcessList proId;
 
-	public ProcessList getProId() {
-		return proId;
-	}
+    @Column(name = "del")
+    private Boolean del = false;
 
-	public void setProId(ProcessList proId) {
-		this.proId = proId;
-	}
+    @Transient
+    private String username;//传过来的审核人的名字
 
-	public Long getReviewedId() {
-		return reviewedId;
-	}
 
-	public void setReviewedId(Long reviewedId) {
-		this.reviewedId = reviewedId;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public User getUserId() {
-		return userId;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setUserId(User userId) {
-		this.userId = userId;
-	}
+    public Boolean getDel() {
+        return del;
+    }
 
-	public String getAdvice() {
-		return advice;
-	}
+    public void setDel(Boolean del) {
+        this.del = del;
+    }
 
-	public void setAdvice(String advice) {
-		this.advice = advice;
-	}
+    public ProcessList getProId() {
+        return proId;
+    }
 
-	public Long getStatusId() {
-		return statusId;
-	}
+    public void setProId(ProcessList proId) {
+        this.proId = proId;
+    }
 
-	public void setStatusId(Long statusId) {
-		this.statusId = statusId;
-	}
+    public Long getReviewedId() {
+        return reviewedId;
+    }
 
-	public Date getReviewedTime() {
-		return reviewedTime;
-	}
+    public void setReviewedId(Long reviewedId) {
+        this.reviewedId = reviewedId;
+    }
 
-	public void setReviewedTime(Date reviewedTime) {
-		this.reviewedTime = reviewedTime;
-	}
+    public User getUserId() {
+        return userId;
+    }
 
-	@Override
-	public String toString() {
-		return "Reviewed [reviewedId=" + reviewedId + ", advice=" + advice + ", statusId=" + statusId
-				+ ", reviewedTime=" + reviewedTime + ", del=" + del + ", username=" + username + "]";
-	}
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
 
-	
-	
-	
+    public String getAdvice() {
+        return advice;
+    }
+
+    public void setAdvice(String advice) {
+        this.advice = advice;
+    }
+
+    public Long getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
+    }
+
+    public Date getReviewedTime() {
+        return reviewedTime;
+    }
+
+    public void setReviewedTime(Date reviewedTime) {
+        this.reviewedTime = reviewedTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Reviewed [reviewedId=" + reviewedId + ", advice=" + advice + ", statusId=" + statusId
+                + ", reviewedTime=" + reviewedTime + ", del=" + del + ", username=" + username + "]";
+    }
+
+
 }

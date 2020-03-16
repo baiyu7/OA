@@ -127,9 +127,7 @@ cursor: pointer;
 					<td class="title" ><label class="control-label">提单人员</label></td>
 					<td  colspan="6"><input type="text" class="form-control inpu" 
 					readonly="readonly" style="background-color:#fff;" value="${username}"/></td>
-					<td class="title" ><label class="control-label">证明人</label></td>
-					<td  colspan="6"><input type="text" class="form-control inpu cheng" 
-					readonly="readonly" style="background-color:#fff;" name="namemoney"/>
+
 						<div class="reciver">
 						<span class="label label-success glyphicon glyphicon-plus"
 					>通讯录</span>

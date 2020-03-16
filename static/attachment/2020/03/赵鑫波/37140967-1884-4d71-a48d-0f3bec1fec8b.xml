@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imeta.org/meta http://upsms.yonyouup.com/meta.xsd">
+  <component domain="ucfbasedoc" moduleName="bd" name="exceltrainProfile" title="导入导出工具档案组件">
+    <class title="导入导出工具档案组件" name="Profile" tableName="bd_exceltrain_profile">
+      <attributes>
+        <attribute title="环境test,daily,pre,online" name="profile" columnName="profile" length="300" type="String" precise="2"/>
+        <attribute title="分类" name="category" columnName="category" length="300" type="String" precise="2"/>
+        <attribute title="档案对应的SHEET编码" name="code4sheet" columnName="code4sheet" length="100" type="String" precise="2"/>
+        <attribute title="档案对应的其它SHEET编码列表" name="othersheets" columnName="othersheets" length="300" type="String" precise="2"/>
+        <attribute title="下载模板的billno" name="billno4template" columnName="billno4template" length="100" type="String" precise="2"/>
+        <attribute title="导入数据的billno" name="billno4import" columnName="billno4import" length="100" type="String" precise="2"/>
+        <attribute title="排序号" name="orderno" columnName="orderno" length="100" type="Integer" precise="2"/>
+        <attribute title="需要切分导入必要字段" name="needseperate" columnName="needseperate" length="100" type="Boolean" precise="2"/>
+        <attribute title="切分导入时首次导入的字段列表" name="neededcolumns" columnName="neededcolumns" length="30" type="String" precise="2"/>
+        <attribute title="模板下载URL" name="url4template" columnName="url4template" length="300" type="String" precise="2"/>
+        <attribute title="数据导入URL" name="url4import" columnName="url4import" length="300" type="String" precise="2"/>
+        <attribute title="数据导入进度URL" name="url4process" columnName="url4process" length="300" type="String" precise="2"/>
+        <attribute title="数据启用URL" name="url4enable" columnName="url4enable" length="300" type="String" precise="2"/>
+        <attribute title="数据启用状态URL" name="url4enablestatus" columnName="url4enablestatus" length="300" type="String" precise="2"/>
+      </attributes>
+    </class>
+    <generalizations>
+      <generalization child="bd.exceltrainProfile.Profile" parent="basedoc.basedocentity.BasedocBizObject"/>
+    </generalizations>
+    <realizations>
+      <realization supplier="basedoc.basedocItf.BasedocITenant" client="bd.exceltrainProfile.Profile"/>
+      <realization supplier="basedoc.basedocItf.AuditInfo" client="bd.exceltrainProfile.Profile"/>
+      <realization supplier="basedoc.basedocItf.BasedocIState" client="bd.exceltrainProfile.Profile"/>
+    </realizations>
+  </component>
+</components>

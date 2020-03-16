@@ -205,8 +205,10 @@
 
                         </#if>
                     </#if>
-                    <input class="btn btn-default" id="cancel" type="submit" value="取消"
-                           onclick="window.history.back();"/>
+                    <a href="javascript:history.back();" class="label label-default"
+                       style="padding: 5px;">
+                        <i class="glyphicon glyphicon-chevron-left"></i> <span>取消</span>
+                    </a>
                 </div>
             </form>
 

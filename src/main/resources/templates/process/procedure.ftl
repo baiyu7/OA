@@ -90,15 +90,15 @@ margin-bottom: 48px;
 						</div>
 					</div>
 					</a>
-					<a href="overtime">
-					<div class="col-md-3 form-group">
-					<label class="control-label" style="float:left;"><img src="images/jiaban.jpg" style="width:100px;height:100px;"></label>
-						<div>
-						<h4>加班申请单</h4><br>
-						<h5>指加班申请单</h5>
-						</div>
-					</div>
-					</a>
+<#--					<a href="overtime">-->
+<#--					<div class="col-md-3 form-group">-->
+<#--					<label class="control-label" style="float:left;"><img src="images/jiaban.jpg" style="width:100px;height:100px;"></label>-->
+<#--						<div>-->
+<#--						<h4>加班申请单</h4><br>-->
+<#--						<h5>指加班申请单</h5>-->
+<#--						</div>-->
+<#--					</div>-->
+<#--					</a>-->
 <#--					<a href="regular">-->
 <#--					<div class="col-md-3 form-group">-->
 <#--					<label class="control-label" style="float:left;"><img src="images/zhuanzhneg.jpg" style="width:100px;height:100px;"></label>-->
@@ -117,7 +117,7 @@ margin-bottom: 48px;
 						</div>
 					</div>
 					</a>
-					<a href="resign">
+					<#--<a href="resign">
 					<div class="col-md-3 form-group">
 					<label class="control-label" style="float:left;"><img src="images/lizhi.jpg" style="width:100px;height:100px;"></label>
 						<div>
@@ -125,7 +125,7 @@ margin-bottom: 48px;
 						<h5>指离职申请单</h5>
 						</div>
 					</div>
-					</a>
+					</a>-->
 				</div>
 			</div>
 		</div>

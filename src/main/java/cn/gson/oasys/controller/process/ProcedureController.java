@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import cn.gson.oasys.model.dao.user.DeptDao;
+import cn.gson.oasys.model.entity.file.FileList;
 import cn.gson.oasys.model.entity.user.Dept;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -170,10 +171,10 @@ public class ProcedureController {
      */
     @RequestMapping("apply")
     public String apply(@RequestParam("filePath") MultipartFile filePath, HttpServletRequest req, @Valid Bursement bu, BindingResult br,
-                        @SessionAttribute("userId") Long userId) throws IllegalStateException, IOException {
+                        @SessionAttribute("userId") Long userId, Model model) throws IllegalStateException, IOException {
         User lu = udao.findOne(userId);//申请人
         User reuser = udao.findByUserName(bu.getUsername());//审核人
-        User zhuti = udao.findByUserName(bu.getNamemoney());//证明人
+//        User zhuti = udao.findByUserName(bu.getNamemoney());//证明人
         Integer allinvoice = 0;
         Double allmoney = 0.0;
         Long roleid = lu.getRole().getRoleId();//申请人角色id
@@ -182,9 +183,11 @@ public class ProcedureController {
 
         String val = req.getParameter("val");
 
-        if (roleid >= 3L && Objects.equals(fatherid, userid)) {
-
-
+        if (lu.getRole().getRoleId() == 3) {
+            if (reuser.getRole().getRoleId() != 2) {
+                model.addAttribute("error", "您是总裁，上级要选择CEO");
+                return "common/proce";
+            }
             List<DetailsBurse> mm = bu.getDetails();
             for (DetailsBurse detailsBurse : mm) {
                 allinvoice += detailsBurse.getInvoices();
@@ -194,7 +197,7 @@ public class ProcedureController {
             //在报销费用表里面set票据总数和总金额
             bu.setAllinvoices(allinvoice);
             bu.setAllMoney(allmoney);
-            bu.setUsermoney(zhuti);
+//            bu.setUsermoney(zhuti);
             //set主表
             ProcessList pro = bu.getProId();
             proservice.index5(pro, val, lu, filePath, reuser.getUserName());
@@ -202,10 +205,88 @@ public class ProcedureController {
 
             //存审核表
             proservice.index7(reuser, pro);
-        } else {
-            return "common/proce";
+            return "redirect:/xinxeng";
+        } else if (lu.getRole().getRoleId() == 4) {
+            //部门经理得找总裁
+            if (reuser.getRole().getRoleId() != 3) {
+                model.addAttribute("error", "您是部门经理，上级要选择总裁");
+                return "common/proce";
+            }
+            List<DetailsBurse> mm = bu.getDetails();
+            for (DetailsBurse detailsBurse : mm) {
+                allinvoice += detailsBurse.getInvoices();
+                allmoney += detailsBurse.getDetailmoney();
+                detailsBurse.setBurs(bu);
+            }
+            //在报销费用表里面set票据总数和总金额
+            bu.setAllinvoices(allinvoice);
+            bu.setAllMoney(allmoney);
+//            bu.setUsermoney(zhuti);
+            //set主表
+            ProcessList pro = bu.getProId();
+            proservice.index5(pro, val, lu, filePath, reuser.getUserName());
+            budao.save(bu);
+
+            //存审核表
+            proservice.index7(reuser, pro);
+            return "redirect:/xinxeng";
+
+        } else {//普通员工
+            Dept dept = deptDao.findOne(lu.getDept().getDeptId());
+            if (dept.getDeptmanager() == (long) 0 || dept.getDeptmanager() == null) {
+                model.addAttribute("error", "你没有部门经理");
+                return "common/proce";
+            }
+            if (dept.getDeptmanager() != reuser.getUserId()) {
+                model.addAttribute("error", "所选上级有误");
+                return "common/proce";
+            }
+            List<DetailsBurse> mm = bu.getDetails();
+            for (DetailsBurse detailsBurse : mm) {
+                allinvoice += detailsBurse.getInvoices();
+                allmoney += detailsBurse.getDetailmoney();
+                detailsBurse.setBurs(bu);
+            }
+            //在报销费用表里面set票据总数和总金额
+            bu.setAllinvoices(allinvoice);
+            bu.setAllMoney(allmoney);
+//            bu.setUsermoney(zhuti);
+            //set主表
+            ProcessList pro = bu.getProId();
+            pro.setEndTime(new Date());
+            proservice.index5(pro, val, lu, filePath, reuser.getUserName());
+            budao.save(bu);
+
+            //存审核表
+            proservice.index7(reuser, pro);
+            return "redirect:/xinxeng";
         }
-        return "redirect:/xinxeng";
+
+//
+//        if (roleid >= 3L && Objects.equals(fatherid, userid)) {
+//
+//
+//            List<DetailsBurse> mm = bu.getDetails();
+//            for (DetailsBurse detailsBurse : mm) {
+//                allinvoice += detailsBurse.getInvoices();
+//                allmoney += detailsBurse.getDetailmoney();
+//                detailsBurse.setBurs(bu);
+//            }
+//            //在报销费用表里面set票据总数和总金额
+//            bu.setAllinvoices(allinvoice);
+//            bu.setAllMoney(allmoney);
+//            bu.setUsermoney(zhuti);
+//            //set主表
+//            ProcessList pro = bu.getProId();
+//            proservice.index5(pro, val, lu, filePath, reuser.getUserName());
+//            budao.save(bu);
+//
+//            //存审核表
+//            proservice.index7(reuser, pro);
+//        } else {
+//            return "common/proce";
+//        }
+//        return "redirect:/xinxeng";
     }
 
     /**
@@ -340,18 +421,23 @@ public class ProcedureController {
         map = proservice.index3(name, user, typename, process);
         if (("费用报销").equals(typename)) {
             Bursement bu = budao.findByProId(process);
-            User prove = udao.findOne(bu.getUsermoney().getUserId());//证明人
+//            User prove = udao.findOne(bu.getUsermoney().getUserId());//证明人
             if (!Objects.isNull(bu.getOperation())) {
                 audit = udao.findOne(bu.getOperation().getUserId());//最终审核人
             }
             List<DetailsBurse> detaillist = dedao.findByBurs(bu);
             String type = tydao.findname(bu.getTypeId());
             String money = ProcessService.numbertocn(bu.getAllMoney());
-            model.addAttribute("prove", prove);
-            model.addAttribute("audit", audit);
+            ProcessList processList = prodao.findOne(proid);
+            User useraudit = processList.getUserId();
+//            model.addAttribute("prove", prove);
+
+            model.addAttribute("audit", useraudit);
             model.addAttribute("type", type);
             model.addAttribute("bu", bu);
             model.addAttribute("money", money);
+            String time = bu.getProId().getApplyTime().toString();
+            model.addAttribute("time", time);
             model.addAttribute("detaillist", detaillist);
             model.addAttribute("map", map);
             return "process/serch";
@@ -436,6 +522,43 @@ public class ProcedureController {
         if (("费用报销").equals(typename)) {
             Bursement bu = budao.findByProId(process);
             model.addAttribute("bu", bu);
+            proservice.user(page, size, model);
+            List<Map<String, Object>> list = proservice.index4(process);
+
+            if (u.getDept().getDeptName().contains("财务")) {
+                model.addAttribute("statusid", process.getStatusId());
+                model.addAttribute("process", process);
+                model.addAttribute("revie", list);
+                model.addAttribute("size", list.size());
+                model.addAttribute("statusid", process.getStatusId());
+                model.addAttribute("ustatusid", re.getStatusId());
+                model.addAttribute("positionid", u.getPosition().getId());
+                model.addAttribute("typename", typename);
+                return "process/audetialNew";
+            }
+
+            if (uu.getRole().getRoleId() == 4 && uu.getDept().getDeptmanager() == uu.getUserId()) {
+                model.addAttribute("statusid", process.getStatusId());
+                model.addAttribute("process", process);
+                model.addAttribute("revie", list);
+                model.addAttribute("size", list.size());
+                model.addAttribute("statusid", process.getStatusId());
+                model.addAttribute("ustatusid", re.getStatusId());
+                model.addAttribute("positionid", u.getPosition().getId());
+                model.addAttribute("typename", typename);
+                return "process/audetialNew";
+            }
+
+            model.addAttribute("statusid", process.getStatusId());
+            model.addAttribute("process", process);
+            model.addAttribute("revie", list);
+            model.addAttribute("size", list.size());
+            model.addAttribute("statusid", process.getStatusId());
+            model.addAttribute("ustatusid", re.getStatusId());
+            model.addAttribute("positionid", u.getPosition().getId());
+            model.addAttribute("typename", typename);
+
+            return "process/audetail";
 
         } else if (("出差费用").equals(typename)) {
             EvectionMoney emoney = emdao.findByProId(process);
@@ -496,7 +619,7 @@ public class ProcedureController {
         String name = null;
         String typename = req.getParameter("type");
         Long proid = Long.parseLong(req.getParameter("proId"));
-
+        String advice = req.getParameter("advice");
         ProcessList pro = prodao.findOne(proid);//找到该条流程
 
         User shen = udao.findOne(pro.getUserId().getUserId());//申请人
@@ -525,13 +648,13 @@ public class ProcedureController {
 
             } else if (("费用报销").equals(typename)) {
 
-                if (u2.getPosition().getId().equals(5L)) {
+                if (u2.getDept().getDeptName().contains("财务")) {
                     proservice.save(proid, u, reviewed, pro, u2);
                 } else {
-                    model.addAttribute("error", "请选财务经理。");
+                    model.addAttribute("error", "请选财务部门人员。");
                     return "common/proce";
                 }
-            } else if (("出差申请").equals(typename)) {
+            } else if (("出差申请").equals(typename) || ("请假申请").equals(typename)) {
                 if (u2.getDept().getDeptName().contains("人事")) {
                     proservice.save(proid, u, reviewed, pro, u2);
 
@@ -543,7 +666,7 @@ public class ProcedureController {
                 if (u2.getPosition().getId().equals(7L)) {
                     proservice.save(proid, u, reviewed, pro, u2);
                 } else {
-                    model.addAttribute("error", "请选人事经理。");
+                    model.addAttribute("error", "请选部门人员。");
                     return "common/proce";
                 }
             }
@@ -551,11 +674,13 @@ public class ProcedureController {
         } else {
             //审核并结案
             Reviewed re = redao.findByProIdAndUserId(proid, u);
-            re.setAdvice(reviewed.getAdvice());
+
+            re.setAdvice(advice);
             re.setStatusId(reviewed.getStatusId());
             re.setReviewedTime(new Date());
             redao.save(re);
             pro.setStatusId(reviewed.getStatusId());//改变主表的状态
+
             prodao.save(pro);
             if (("请假申请").equals(typename) || ("出差申请").equals(typename)) {
                 if (reviewed.getStatusId() == 25) {
@@ -579,15 +704,15 @@ public class ProcedureController {
         if (("费用报销").equals(typename)) {
             Bursement bu = budao.findByProId(pro);
             if (shen.getFatherId().equals(u.getUserId())) {
-                bu.setManagerAdvice(reviewed.getAdvice());
+                bu.setManagerAdvice(advice);
                 budao.save(bu);
-            }
-            if (u.getPosition().getId() == 5) {
-                bu.setFinancialAdvice(reviewed.getAdvice());
+            } else {
+                bu.setFinancialAdvice(advice);
                 bu.setBurseTime(new Date());
                 bu.setOperation(u);
                 budao.save(bu);
             }
+
         } else if (("出差费用").equals(typename)) {
             EvectionMoney emoney = emdao.findByProId(pro);
             if (shen.getFatherId().equals(u.getUserId())) {
@@ -601,7 +726,7 @@ public class ProcedureController {
         } else if (("出差申请").equals(typename)) {
             Evection ev = edao.findByProId(pro);
             if (shen.getFatherId().equals(u.getUserId())) {
-                ev.setManagerAdvice(reviewed.getAdvice());
+                ev.setManagerAdvice(advice);
                 edao.save(ev);
             }
             if (u.getPosition().getId().equals(7L)) {
@@ -621,13 +746,14 @@ public class ProcedureController {
         } else if (("请假申请").equals(typename)) {
             Holiday over = hdao.findByProId(pro);
             if (shen.getFatherId().equals(u.getUserId())) {
-                over.setManagerAdvice(reviewed.getAdvice());
+                over.setManagerAdvice(advice);
+                hdao.save(over);
+            } else {
+                over.setPersonnelAdvice(advice);
                 hdao.save(over);
             }
-            if (u.getPosition().getId().equals(7L)) {
-                over.setPersonnelAdvice(reviewed.getAdvice());
-                hdao.save(over);
-            }
+
+
         } else if (("转正申请").equals(typename)) {
             Regular over = rgdao.findByProId(pro);
             if (shen.getFatherId().equals(u.getUserId())) {
@@ -764,7 +890,7 @@ public class ProcedureController {
         if (lu.getRole().getRoleId() == 3) {
             if (shen.getRole().getRoleId() != 2) {
                 model.addAttribute("error", "您是总裁，上级要选择CEO");
-                return "common/Proprocess";
+                return "common/proce";
             }
             ProcessList pro = eve.getProId();
             proservice.index5(pro, val, lu, filePath, shen.getUserName());
@@ -776,7 +902,7 @@ public class ProcedureController {
             //部门经理得找总裁
             if (shen.getRole().getRoleId() != 3) {
                 model.addAttribute("error", "您是部门经理，上级要选择总裁");
-                return "common/Proprocess";
+                return "common/proce";
             }
             ProcessList pro = eve.getProId();
             proservice.index5(pro, val, lu, filePath, shen.getUserName());
@@ -789,11 +915,11 @@ public class ProcedureController {
             Dept dept = deptDao.findOne(lu.getDept().getDeptId());
             if (dept.getDeptmanager() == (long) 0 || dept.getDeptmanager() == null) {
                 model.addAttribute("error", "你没有部门经理");
-                return "common/Proprocess";
+                return "common/proce";
             }
             if (dept.getDeptmanager() != shen.getUserId()) {
                 model.addAttribute("error", "所选上级有误");
-                return "common/Proprocess";
+                return "common/proce";
             }
             ProcessList pro = eve.getProId();
             proservice.index5(pro, val, lu, filePath, shen.getUserName());
@@ -895,7 +1021,12 @@ public class ProcedureController {
         Long fatherid = lu.getFatherId();//申请人父id
         Long userid = shen.getUserId();//审核人userid
         String val = req.getParameter("val");
-        if (roleid >= 3L && Objects.equals(fatherid, userid)) {
+
+        if (lu.getRole().getRoleId() == 3) {
+            if (shen.getRole().getRoleId() != 2) {
+                model.addAttribute("error", "您是总裁，上级要选择CEO");
+                return "common/proce";
+            }
             SystemTypeList type = tydao.findOne(eve.getTypeId());
             if (eve.getTypeId() == 40) {
                 if (type.getTypeSortValue() < eve.getLeaveDays()) {
@@ -920,9 +1051,103 @@ public class ProcedureController {
                 //存审核表
                 proservice.index7(shen, pro);
             }
-        } else {
-            return "common/proce";
+        } else if (lu.getRole().getRoleId() == 4) {
+            //部门经理得找总裁
+            if (shen.getRole().getRoleId() != 3) {
+                model.addAttribute("error", "您是部门经理，上级要选择总裁");
+                return "common/proce";
+            }
+            SystemTypeList type = tydao.findOne(eve.getTypeId());
+            if (eve.getTypeId() == 40) {
+                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+                    model.addAttribute("error", "婚假必须小于10天。");
+                    return "common/proce";
+                }
+            } else if (eve.getTypeId() == 38) {
+                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+                    model.addAttribute("error", "单次事假必须小于4天。");
+                    return "common/proce";
+                }
+            } else if (eve.getTypeId() == 42) {
+                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+                    model.addAttribute("error", "陪产假必须小于10天。");
+                    return "common/proce";
+                }
+            } else {
+                //set主表
+                ProcessList pro = eve.getProId();
+                proservice.index5(pro, val, lu, filePath, shen.getUserName());
+                hdao.save(eve);
+                //存审核表
+                proservice.index7(shen, pro);
+            }
+
+        } else {//普通员工
+            Dept dept = deptDao.findOne(lu.getDept().getDeptId());
+            if (dept.getDeptmanager() == (long) 0 || dept.getDeptmanager() == null) {
+                model.addAttribute("error", "你没有部门经理");
+                return "common/proce";
+            }
+            if (dept.getDeptmanager() != shen.getUserId()) {
+                model.addAttribute("error", "所选上级有误");
+                return "common/proce";
+            }
+            SystemTypeList type = tydao.findOne(eve.getTypeId());
+            if (eve.getTypeId() == 40) {
+                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+                    model.addAttribute("error", "婚假必须小于10天。");
+                    return "common/proce";
+                }
+            } else if (eve.getTypeId() == 38) {
+                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+                    model.addAttribute("error", "单次事假必须小于4天。");
+                    return "common/proce";
+                }
+            } else if (eve.getTypeId() == 42) {
+                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+                    model.addAttribute("error", "陪产假必须小于10天。");
+                    return "common/proce";
+                }
+            } else {
+                //set主表
+                ProcessList pro = eve.getProId();
+                proservice.index5(pro, val, lu, filePath, shen.getUserName());
+                hdao.save(eve);
+                //存审核表
+                proservice.index7(shen, pro);
+            }
+
         }
+
+
+//        if (roleid >= 3L && Objects.equals(fatherid, userid)) {
+//            SystemTypeList type = tydao.findOne(eve.getTypeId());
+//            if (eve.getTypeId() == 40) {
+//                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+//                    model.addAttribute("error", "婚假必须小于10天。");
+//                    return "common/proce";
+//                }
+//            } else if (eve.getTypeId() == 38) {
+//                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+//                    model.addAttribute("error", "单次事假必须小于4天。");
+//                    return "common/proce";
+//                }
+//            } else if (eve.getTypeId() == 42) {
+//                if (type.getTypeSortValue() < eve.getLeaveDays()) {
+//                    model.addAttribute("error", "陪产假必须小于10天。");
+//                    return "common/proce";
+//                }
+//            } else {
+//                //set主表
+//                ProcessList pro = eve.getProId();
+//                proservice.index5(pro, val, lu, filePath, shen.getUserName());
+//                hdao.save(eve);
+//                //存审核表
+//                proservice.index7(shen, pro);
+//            }
+//        } else {
+//            return "common/proce";
+//        }
 
         return "redirect:/xinxeng";
     }
