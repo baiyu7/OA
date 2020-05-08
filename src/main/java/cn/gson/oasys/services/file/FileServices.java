@@ -108,7 +108,7 @@ public class FileServices {
      * @throws IllegalStateException
      * @throws IOException
      */
-    public Object savefile(MultipartFile file, User user, FilePath nowpath, boolean isfile) throws IllegalStateException, IOException {
+    public Object savefile(MultipartFile file, User user, FilePath nowpath, boolean isfile, String type) throws IllegalStateException, IOException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM");
         File root = new File(this.rootPath, simpleDateFormat.format(new Date()));
 
@@ -126,10 +126,16 @@ public class FileServices {
         file.transferTo(targetFile);
 
         if (isfile) {
+
             FileList filelist = new FileList();
             String filename = file.getOriginalFilename();
             filename = onlyname(filename, nowpath, shuffix, 1, true);
             filelist.setFileName(filename);
+            if (type.equals("share")) {
+                filelist.setFileIsshare((long) 1);
+            }
+            filelist.setType(type);
+
             filelist.setFilePath(targetFile.getAbsolutePath().replace("\\", "/").replace(this.rootPath, ""));
             filelist.setFileShuffix(shuffix);
             filelist.setSize(file.getSize());
@@ -203,8 +209,9 @@ public class FileServices {
         for (Long fileid : fileids) {
             FileList filelist = fldao.findOne(fileid);
 
-            File file = new File(this.rootPath, filelist.getFilePath());
-            //System.out.println(fileid+":"+file.exists());
+            File file = new File(filelist.getFilePath());
+            System.out.println(file.exists());
+            System.out.println(file.isFile());
             if (file.exists() && file.isFile()) {
                 System.out.println("现在删除" + filelist.getFileName() + "数据库存档>>>>>>>>>");
                 fldao.delete(fileid);
@@ -350,8 +357,7 @@ public class FileServices {
     /**
      * 文件夹还原
      *
-     * @param pathids
-     * @param setistrashhaomany
+     * @param pathids //     * @param setistrashhaomany
      */
     public void pathreturnback(List<Long> pathids, Long userid) {
         for (Long pathid : pathids) {
@@ -401,8 +407,9 @@ public class FileServices {
 
     /**
      * 复制和移动
+     * <p>
+     * //     * @param ids
      *
-     * @param ids
      * @param fromwhere 1为移动  2 为复制
      */
     @Transactional
@@ -681,7 +688,7 @@ public class FileServices {
      * @return
      */
     public File get(Attachment att) {
-        return new File(this.rootPath + att.getAttachmentPath());
+        return new File(/*this.rootPath + */att.getAttachmentPath());
     }
 
     public Attachment get(String filePath) {

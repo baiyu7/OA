@@ -2,6 +2,7 @@ package cn.gson.oasys.common;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -10,4 +11,7 @@ public class Tool {
         WebApplicationContext wc = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
         return wc.getBean(clazz);
     }
+
+
+
 }

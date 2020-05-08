@@ -1,0 +1,155 @@
+package com.yonyou.ucf.mdf.bill.controller;
+
+import com.yonyou.ucf.mdf.app.common.ResultMessage;
+import com.yonyou.ucf.mdf.app.controller.BaseController;
+import com.yonyou.ucf.mdf.bill.entity.FrameObjFactory;
+import com.yonyou.ucf.mdf.bill.entity.FrameParam;
+import com.yonyoucloud.uretail.bill.meta.service.BillMetaService;
+import com.yonyoucloud.uretail.bill.meta.service.BillPOIService;
+import com.yonyoucloud.uretail.bill.meta.ui.ViewModel;
+import com.yonyoucloud.uretail.poi.model.ExcelExportData;
+import com.yonyoucloud.uretail.poi.model.ExcelField;
+import com.yonyoucloud.uretail.poi.model.StreamParam;
+import com.yonyoucloud.uretail.poi.service.POIService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 导出模板功能
+ * 1、把节点上的导出模板合成一个EXCEL模板
+ * 2、合成的sheet页面需要区别，加上后缀
+ * 3、批注的完善
+ * 4、列类型的设置
+ * 5、示例数据
+ */
+
+@Controller
+@RequestMapping("/billextemp/")
+public class BillExPOIController extends BaseController {
+    private Logger logger = LoggerFactory.getLogger(BillExPOIController.class);
+
+    @Autowired
+    private BillPOIService billPOIService;
+
+    @Autowired
+    private BillMetaService billMetaService;
+
+    /**
+     * 导出模板入口服务
+     * 参数传进来的信息包括：用户在页面选择的分类和实体，比如部门人员：
+     *
+     * @param map//传进来的是一个map集合String代表大的标题就是下面的group相对应,
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+
+    @RequestMapping("export")
+    public void export(@RequestBody Map<String, Object> map, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        //TODO 根据map前台传过来的参数，导出相应模板
+        try {
+            String group;
+            ExcelExportData exportData = null;
+            ExcelExportData exportData1 = null;
+            for (Map.Entry<String, Object> cheched : map.entrySet()
+            ) {
+                //获取大标题
+                group = cheched.getKey();
+                //根据大标题进行配置文件的读取  String 选中的子标题 选中的子标题的一些内置参数
+                LinkedHashMap<String, FrameParam> params = FrameObjFactory.getFrameParams(group);
+                //循环子标题
+                for (Map.Entry<String, FrameParam> vos : params.entrySet()
+                ) {
+                    //将多个（子标题）进行合并返回
+                    exportData = this.joinExcelExportData(this.getExcelTemplates(vos.getValue()), exportData1);
+                    //将已经合并的单个节点对象进行保存
+                    exportData1 = exportData;
+                }
+            }
+            String fileName = "";
+            exportData.setFileName(fileName);
+            StreamParam streamParam = new StreamParam(fileName, exportData, response);
+            POIService.downLoadToResponse(streamParam);
+        } catch (Exception e) {
+            logger.info("模板合并异常" + e.getMessage());
+            e.printStackTrace();
+            renderJson(response, ResultMessage.error(e.getMessage()));
+        }
+        logger.debug("[BillExPOIController] export : " + map);
+    }
+
+    /**
+     * 取得单个节点(子标题)的导出对象
+     *
+     * @param //传入的是每个小标题的frameParam,来获取每个小标题的tplid和billnum来导出相应的excelExportData
+     * @return
+     * @throws Exception
+     */
+
+    private ExcelExportData getExcelTemplates(FrameParam frameParam) throws Exception {
+        Long tplid = null;
+        if (frameParam.getTplid() != null) {
+            tplid = Long.parseLong(frameParam.getTplid());
+        }
+        ViewModel viewModel = this.billMetaService.getSimpleVM(frameParam.getBillnum().toString(), tplid, true, (Boolean) null);
+        com.yonyoucloud.uretail.util.Logger.debug("[BillPOIController] export viewModel" + viewModel, new Object[0]);
+        ExcelExportData exportData = this.billPOIService.getTempExportData(viewModel);
+        return exportData;
+    }
+
+    /**
+     * 把多个ExcelExportData合到一个ExcelExportData.
+     */
+
+    private ExcelExportData joinExcelExportData(ExcelExportData a, ExcelExportData b) {
+        //TODO 把a,b合成c,返回.
+        //如果只有一个节点的话就不需要进行合并，第二个参数就是空的了，所以要直接返回第一个参数对象就可以
+        if (b != null
+        ) {
+            ExcelExportData c = new ExcelExportData();
+            LinkedHashMap<String, List<Object>> c_dataMap = c.getDataMap();
+            c_dataMap.putAll(a.getDataMap());
+            c_dataMap.putAll(b.getDataMap());
+            c.setDataMap(c_dataMap);
+            LinkedHashMap<String, List<Object>> c_sumMap = c.getSumMap();
+            c_sumMap.putAll(a.getSumMap());
+            c_sumMap.putAll(b.getSumMap());
+            c.setDataMap(c_sumMap);
+            String[] c_titles = new String[a.getTitles().length + b.getTitles().length];
+            System.arraycopy(c_titles, 0, a.getTitles(), 0, a.getTitles().length);
+            System.arraycopy(c_titles, a.getTitles().length + 1, b.getTitles(), 0, b.getTitles().length);
+            c.setTitles(c_titles);
+            List<String[]> c_columnNames = c.getColumnNames();
+            c_columnNames.addAll(a.getColumnNames());
+            c_columnNames.addAll(b.getColumnNames());
+            c.setColumnNames(c_columnNames);
+            List<String[]> c_filedNames = c.getFieldNames();
+            c_filedNames.addAll(a.getFieldNames());
+            c_filedNames.addAll(b.getFieldNames());
+            c.setFieldNames(c_filedNames);
+            List<ExcelField[]> c_fields = c.getFields();
+            c_fields.addAll(a.getFields());
+            c_fields.addAll(b.getFields());
+            c.setFields(c_fields);
+            LinkedHashMap<String, List<Map<String, Object>>> c_headerMap = c.getHeadersMap();
+            c_headerMap.putAll(a.getHeadersMap());
+            c_headerMap.putAll(b.getHeadersMap());
+            c.setHeadersMap(c_headerMap);
+
+            return c;
+        } else {
+            return a;
+        }
+    }
+}

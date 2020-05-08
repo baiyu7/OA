@@ -36,7 +36,7 @@ a:hover {
 				<h3 class="box-title">
 					<a href="menuedit" class="label label-success"
 						style="padding: 5px;"> <span class="glyphicon glyphicon-plus"></span>
-						新增
+						新增父级目录
 					</a>
 					<a href="" class="label label-success" style="padding: 5px;margin-left:5px;">
 						<span class="glyphicon glyphicon-refresh"></span> 刷新

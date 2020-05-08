@@ -2,6 +2,9 @@ package cn.gson.oasys.common;
 
 
 
+import org.junit.jupiter.api.Test;
+import org.springframework.mail.SimpleMailMessage;
+
 import java.util.Date;
 import java.util.Properties;
 
@@ -12,18 +15,19 @@ import javax.mail.internet.MimeMessage;
 
 public class PushoutMail {
 
-	public PushoutMail() {}
+
+    public PushoutMail() {}
 
 	// 发件人的 邮箱 和 密码（替换为自己的邮箱和密码）
-	public static String myEmailAccount = "962239776@qq.com";
-    public static String myEmailPassword = "ntogbdqtuieybdje";
-    
+	public static String myEmailAccount = "baiyu7788945@163.com";
+    public static String myEmailPassword = "ZLQJBQPGLGUEBSWC";
+
  // 网易163邮箱的 SMTP 服务器地址为: smtp.163.com
  //qq  smtp.qq.com
-    public static String myEmailSMTPHost = "smtp.qq.com";
-    
+    public static String myEmailSMTPHost = "smtp.163.com";
+
  // 收件人邮箱（替换为自己知道的有效邮箱）
-    public static String receiveMailAccount = "1533047354@qq.com";
+    public static String receiveMailAccount = "983934442@qq.com";
 
     public static void main(String[] args) {
     	// 1. 创建参数配置, 用于连接邮件服务器的参数配置
@@ -67,11 +71,12 @@ public class PushoutMail {
 			e.printStackTrace();
 		}
         
-       
-        
+
+
+
 	}
-    
-    
+
+
     public static MimeMessage createMimeMessage(Session session, String sendMail, String receiveMail) throws Exception {
         // 1. 创建一封邮件
         MimeMessage message = new MimeMessage(session);
@@ -97,6 +102,6 @@ public class PushoutMail {
         return message;
     }
 
-    
+
 }
 

@@ -211,7 +211,7 @@ public class PlanController {
             // 新建
             if (pid == -1) {
                 if (!file.isEmpty()) {
-                    att = (Attachment) fServices.savefile(file, user, null, false);
+                    att = (Attachment) fServices.savefile(file, user, null, false, null);
                     attid = att.getAttachmentId();
                 } else if (file.isEmpty())
                     attid = null;
@@ -224,7 +224,7 @@ public class PlanController {
                 plan = planDao.findOne(pid);
                 if (plan.getAttachId() == null) {
                     if (!file.isEmpty()) {
-                        att = (Attachment) fServices.savefile(file, user, null, false);
+                        att = (Attachment) fServices.savefile(file, user, null, false, null);
                         attid = att.getAttachmentId();
                         plan.setAttachId(attid);
                         planDao.save(plan);

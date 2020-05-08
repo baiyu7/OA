@@ -63,7 +63,7 @@
 			</ul>
 		</div>
 
-		<div class="bgc-w box box-solid">
+		<#--<div class="bgc-w box box-solid">
 			<div class="box-header">
 				<h3 class="box-title">类型</h3>
 				<span class="btn btn-xs btn-default pull-right des"> <i
@@ -81,7 +81,7 @@
 								<use xlink:href="#icon-kongxinquan"></use>
 							</svg>&nbsp;&nbsp;&nbsp;公告</li>
 			</ul>
-		</div>
+		</div>-->
 	</div>
 	<div class="col-md-9 set ">
 		<#include "/mail/allmail.ftl">

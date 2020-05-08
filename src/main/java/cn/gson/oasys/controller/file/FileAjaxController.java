@@ -29,7 +29,7 @@ public class FileAjaxController {
 	FilePathdao fpdao;
 	@Autowired
 	UserDao udao;
-	
+
 	@RequestMapping("mcloadpath")
 	public String mcloadpath(@RequestParam("mctoid") Long mctoid,@RequestParam("mcpathids") List<Long> mcpathids,Model model){
 		System.out.println("进来了是吧！~~");
@@ -67,7 +67,7 @@ public class FileAjaxController {
 			
 		case "picture":
 			contenttype = "image/%";
-			fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
+			fileLists = fldao.findpicture(user);
 			System.out.println(fileLists);
 			model.addAttribute("files", fileLists);
 			model.addAttribute("isload",1);
@@ -75,7 +75,7 @@ public class FileAjaxController {
 			
 		case "music":
 			contenttype = "audio/%";
-			fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
+			fileLists = fldao.findmusic(user);
 			System.out.println(fileLists);
 			model.addAttribute("files", fileLists);
 			model.addAttribute("isload",1);
@@ -83,14 +83,14 @@ public class FileAjaxController {
 			
 		case "video":
 			contenttype = "video/%";
-			fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
+			fileLists = fldao.findvideo(user);
 			System.out.println(fileLists);
 			model.addAttribute("files", fileLists);
 			model.addAttribute("isload",1);
 			break;
 		case "yasuo":
 			contenttype = "application/x%";
-			fileLists = fldao.findByUserAndContentTypeLikeAndFileIstrash(user, contenttype, 0L);
+			fileLists = fldao.findyasuo(user);
 			System.out.println(fileLists);
 			model.addAttribute("files", fileLists);
 			model.addAttribute("isload",1);

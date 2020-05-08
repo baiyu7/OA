@@ -126,12 +126,12 @@ public class FileController {
      */
     @RequestMapping("fileupload")
     public String uploadfile(@RequestParam("file") MultipartFile file, @RequestParam("pathid") Long pathid,
-                             HttpSession session, Model model) throws IllegalStateException, IOException {
+                             HttpSession session, Model model, @RequestParam("type") String type) throws IllegalStateException, IOException {
         Long userid = Long.parseLong(session.getAttribute("userId") + "");
         User user = udao.findOne(userid);
         FilePath nowpath = fpdao.findOne(pathid);
         // true 表示从文件使用上传
-        FileList uploadfile = (FileList) fs.savefile(file, user, nowpath, true);
+        FileList uploadfile = (FileList) fs.savefile(file, user, nowpath, true,type);
         System.out.println(uploadfile);
 
         model.addAttribute("pathid", pathid);
@@ -285,7 +285,7 @@ public class FileController {
     @RequestMapping("imgshow")
     public void imgshow(HttpServletResponse response, @RequestParam("fileid") Long fileid) {
         FileList filelist = fldao.findOne(fileid);
-        File file = fs.getFile(filelist.getFilePath());
+        File file = new File(filelist.getFilePath());
         writefile(response, file);
     }
 
